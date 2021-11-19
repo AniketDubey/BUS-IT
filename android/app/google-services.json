@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "264079913650",
+    "project_id": "finalminor-203e8",
+    "storage_bucket": "finalminor-203e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:264079913650:android:93cb95185f374fb3b14fab",
+        "android_client_info": {
+          "package_name": "com.example.minoragain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "264079913650-h1eqgqla5gkaf6upbpbs03t1ck8d7het.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkRDs9U0LjSbbA6W3km0Rz6MnSwsAYq8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "264079913650-h1eqgqla5gkaf6upbpbs03t1ck8d7het.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
