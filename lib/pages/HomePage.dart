@@ -6,6 +6,8 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'package:minoragain/models/DUMMYDATA.dart';
 import 'package:minoragain/models/Station.dart';
+import 'package:provider/provider.dart';
+import 'package:minoragain/models/Provider.dart';
 
 class HomePage extends StatelessWidget {
   //const HomePage({ Key? key }) : super(key: key);
@@ -17,8 +19,11 @@ class HomePage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _textEditingController = TextEditingController();
 
+  //Provider.of<BList>(context, listen: false).screenChange();
+
   @override
   Widget build(BuildContext context) {
+    Provider.of<BList>(context, listen: false).screenChange();
     return Form(
       key: _formKey,
       child: TypeAheadFormField(

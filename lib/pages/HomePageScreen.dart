@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'BusDetailScreen.dart';
 import 'package:minoragain/pages/HomePage.dart';
+import 'package:provider/provider.dart';
+import 'package:minoragain/models/Provider.dart';
 
 class HomePageScreen extends StatelessWidget {
   //const HomePageScreen({ Key? key }) : super(key: key);
@@ -35,6 +37,7 @@ class HomePageScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
+                  Provider.of<BList>(context, listen: false).screenChange();
                   print("Source is ${details["Source"]}");
                   print("Destination is ${details["Destination"]}");
                   Navigator.of(context).push(
@@ -45,6 +48,10 @@ class HomePageScreen extends StatelessWidget {
                 },
                 child: Text("OK"),
               ),
+              SizedBox(
+                height: 25,
+              ),
+              Image.asset("assets/b1.png"),
             ],
           ),
         ),
