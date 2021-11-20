@@ -49,7 +49,7 @@ class AllStation extends StatelessWidget {
                         context: ctx,
                         builder: (cc) {
                           return AlertDialog(
-                            scrollable: true,
+                            //scrollable: true,
                             title: Text(sList[index].sName),
                             content: Padding(
                               padding: EdgeInsets.all(10),

@@ -90,7 +90,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                     context: ctx,
                                     builder: (cc) {
                                       return AlertDialog(
-                                        scrollable: true,
+                                        //scrollable: true,
                                         title: Text("Station Information"),
                                         content: Padding(
                                           padding: EdgeInsets.all(10),
