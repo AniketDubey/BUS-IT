@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:minoragain/pages/All_Station.dart';
 import 'package:minoragain/pages/HomePageScreen.dart';
+import 'package:minoragain/pages/Scanqr.dart';
 
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -21,6 +22,7 @@ class _StartPageState extends State<StartPage> {
   List<Widget> _buildScreens() {
     return [
       HomePageScreen(),
+      Scanqr(),
       AllStation(),
     ];
   }
@@ -34,6 +36,16 @@ class _StartPageState extends State<StartPage> {
         ),
         icon: Icon(Icons.home),
         title: ("Home"),
+        activeColorPrimary: Colors.blue,
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        textStyle: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+        icon: Icon(Icons.qr_code),
+        title: ("QR Code"),
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.grey,
       ),

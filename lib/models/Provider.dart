@@ -20,7 +20,7 @@ class BList with ChangeNotifier {
     try {
       var s1 = await FirebaseFirestore.instance
           .collection("Station")
-          .where("SName", isEqualTo: "${_details["Source"]}")
+          .where("Sname", isEqualTo: "${_details["Source"]}")
           .get();
 
       s1.docs.forEach((element) {
@@ -34,7 +34,7 @@ class BList with ChangeNotifier {
     try {
       var s2 = await FirebaseFirestore.instance
           .collection("Station")
-          .where("SName", isEqualTo: "${_details["Destination"]}")
+          .where("Sname", isEqualTo: "${_details["Destination"]}")
           .get();
 
       s2.docs.forEach((element) {

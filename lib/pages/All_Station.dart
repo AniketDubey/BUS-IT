@@ -35,7 +35,7 @@ class AllStation extends StatelessWidget {
                     onTap: () async {
                       var s1 = await FirebaseFirestore.instance
                           .collection("Station")
-                          .where("SName", isEqualTo: sList[index].sName)
+                          .where("Sname", isEqualTo: sList[index].sName)
                           .get();
 
                       List<dynamic> f1 = [];
