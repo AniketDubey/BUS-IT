@@ -1,8 +1,12 @@
-// ignore_for_file: file_names, avoid_web_libraries_in_flutter
+// ignore_for_file: file_names, avoid_web_libraries_in_flutter, prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io' show Platform;
 import 'dart:convert';
+import 'package:minoragain/models/Provider.dart';
+import 'package:minoragain/pages/Payment.dart';
+import 'package:provider/provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +21,7 @@ class Scanqr extends StatefulWidget {
 
 class _ScanqrState extends State<Scanqr> {
   final qrKey = GlobalKey(debugLabel: "QR");
+  bool _isLoading = true;
   Barcode? barcode;
   QRViewController? controller;
 
@@ -39,26 +44,49 @@ class _ScanqrState extends State<Scanqr> {
     controller!.resumeCamera();
   }
 
+  void _afterScan(String busNo) async {
+    await Provider.of<BList>(context, listen: false).getPasLog(busNo);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _updateData(String busNo, int PasCount) async {
+    String? Bid = await Provider.of<BList>(context, listen: false).getID(busNo);
+    print(Bid);
+    if (Bid != null) {
+      await Provider.of<BList>(context, listen: false)
+          .changeData(Bid, PasCount);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          alignment: Alignment.center,
-          children: [
-            buildQRView(context),
-            Positioned(
-              bottom: 10,
-              child: Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white24,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop();
+        Provider.of<BList>(context, listen: false).screenChange();
+        return Future.value(true);
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: Stack(
+            alignment: Alignment.center,
+            children: [
+              buildQRView(context),
+              Positioned(
+                bottom: barcode != null ? 258 : 15,
+                child: Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white24,
+                  ),
+                  child: buildResult(),
                 ),
-                child: buildResult(),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -68,10 +96,49 @@ class _ScanqrState extends State<Scanqr> {
     if (barcode == null) {
       return Text("Scan QR");
     } else {
-      print(barcode!.code);
       /* var animap = json.decode(barcode!.code);
       print(animap); */ // isko isliye hataya qki isse scanning mein error aa rhi thi bina iske sahi chal rha hai
-      return Text(barcode!.code);
+      //return Text(barcode!.code);
+
+      print(barcode!.code);
+
+      String busNo = barcode!.code;
+
+      /* Map<String, dynamic> Businfo = {};
+      
+
+      print("bahar se $Businfo"); */
+
+      _afterScan(busNo);
+
+      return Consumer<BList>(
+        builder: (ctx, data, ch) {
+          return _isLoading
+              ? Center(child: CircularProgressIndicator())
+              : /*T extButton(
+                  onPressed: () {
+                    print(data.PasCount);
+                  },
+                  child: Text("${data.PasCount}")); */
+              AlertDialog(
+                  title: Text("Click Pay to Proceed"),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        await _updateData(busNo, data.PasCount);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (cctx) => Payment(),
+                          ),
+                        );
+                        //setState(() {});
+                      },
+                      child: Text("Pay"),
+                    ),
+                  ],
+                );
+        },
+      );
     }
     //return Text(barcode!.code);
   }

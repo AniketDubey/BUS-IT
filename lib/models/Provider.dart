@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print
+// ignore_for_file: file_names, avoid_print, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,11 +6,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class BList with ChangeNotifier {
   List<dynamic> _l4 = [];
 
-  List<dynamic> amit = [];
-
   List<dynamic> get l4 {
     return _l4;
   }
+
+  int _PasCount = 0;
+
+  String? _Id;
+
+  String get Id {
+    return _Id as String;
+  }
+
+  int get PasCount {
+    return _PasCount;
+  }
+
+  void setVal(int nval) => _PasCount = nval;
 
   Future<void> fetchData(_details) async {
     List<dynamic> l1 = [];
@@ -86,7 +98,6 @@ class BList with ChangeNotifier {
 
                 _l4.add(m3);
                 notifyListeners();
-                amit.add(m3);
                 //print(_l4);
               }
             },
@@ -104,5 +115,55 @@ class BList with ChangeNotifier {
 
   Future<void> screenChange() async {
     l4.clear();
+    setVal(0);
+  }
+
+  Future<void> getPasLog(String busNo) async {
+    try {
+      FirebaseFirestore.instance
+          .collection("BusQR")
+          .where("BusNum", isEqualTo: busNo)
+          .get()
+          .then((value) {
+        value.docs.forEach((element) {
+          Map<String, dynamic> Finfo = element.data();
+          _PasCount = Finfo["PasLog"];
+          notifyListeners();
+        });
+      });
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<String?> getID(String busNo) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore
+          .instance
+          .collection("BusQR")
+          .where("BusNum", isEqualTo: busNo)
+          .get();
+
+      value.docs.forEach((element) {
+        print("provider se ${element.reference.id}");
+        _Id = element.reference.id;
+
+        notifyListeners();
+      });
+    } catch (error) {
+      print(error);
+    }
+    return _Id;
+  }
+
+  Future<void> changeData(String BID, int PasData) async {
+    try {
+      FirebaseFirestore.instance.collection("BusQR").doc(BID).update({
+        "PasLog": PasData - 1,
+      });
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
   }
 }
