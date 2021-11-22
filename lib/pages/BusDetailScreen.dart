@@ -3,14 +3,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:minoragain/models/Provider.dart';
+import 'package:minoragain/pages/Scanqr.dart';
 import 'package:provider/provider.dart';
 //import 'package:minoragain/screens/ListofDetails.dart';
 
 class BusDetailScreen extends StatefulWidget {
   //const BusDetailScreen({Key? key}) : super(key: key);
 
-  Map<String, String> _details;
-  BusDetailScreen(this._details);
+  Map<String, String> detailInfo;
+  BusDetailScreen(this.detailInfo);
 
   @override
   _BusDetailScreenState createState() => _BusDetailScreenState();
@@ -20,11 +21,22 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
   bool _isLoading = true;
 
   void submitData() async {
-    await Provider.of<BList>(context, listen: false).fetchData(widget._details);
+    await Provider.of<BList>(context, listen: false)
+        .fetchData(widget.detailInfo);
     await Future.delayed(Duration(seconds: 4));
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<void> _updateData(
+      String busNo, String destination, int PasCount) async {
+    String? Bid = await Provider.of<BList>(context, listen: false).getID(busNo);
+    print(Bid);
+    if (Bid != null) {
+      await Provider.of<BList>(context, listen: false)
+          .changeData(Bid, destination, PasCount);
+    }
   }
 
   @override
@@ -142,12 +154,27 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                             ),
                                             actions: [
                                               TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context,
-                                                            rootNavigator: true)
-                                                        .pop();
-                                                  },
-                                                  child: Text("OK"))
+                                                onPressed: () {
+                                                  Navigator.of(context,
+                                                          rootNavigator: true)
+                                                      .pop();
+                                                },
+                                                child: Text("OK"),
+                                              ),
+                                              TextButton(
+                                                onPressed: () async {
+                                                  print(temp["BusNum"]);
+                                                  print(widget.detailInfo[
+                                                      "Destination"]);
+
+                                                  await _updateData(
+                                                      temp["BusNum"],
+                                                      widget.detailInfo[
+                                                          "Destination"]!,
+                                                      temp["PasLog"]);
+                                                },
+                                                child: Text("Pay Now"),
+                                              ),
                                             ],
                                           );
                                         },

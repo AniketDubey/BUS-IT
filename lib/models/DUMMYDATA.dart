@@ -53,6 +53,8 @@ List<Station> sList = [
   Station(sName: "Sultanpur"),
   Station(sName: "Raja Nahar Singh"),
   Station(sName: "Karkarduma"),
+  Station(sName: "Tejas1"),
+  Station(sName: "Tejas2"),
 ];
 
 

@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, avoid_web_libraries_in_flutter, prefer_const_constructors
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io' show Platform;
 import 'dart:convert';
@@ -218,4 +218,4 @@ class _ScanqrState extends State<Scanqr> {
       }
     });
   }*/
-}
+}*/

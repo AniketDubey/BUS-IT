@@ -18,6 +18,12 @@ class BList with ChangeNotifier {
     return _Id as String;
   }
 
+  String? _sID;
+
+  String get sID {
+    return _sID as String;
+  }
+
   int get PasCount {
     return _PasCount;
   }
@@ -37,7 +43,12 @@ class BList with ChangeNotifier {
 
       s1.docs.forEach((element) {
         Map<String, dynamic> m1 = element.data();
-        l1 = m1["IncBus"];
+        Map<String, dynamic> mm1 = m1["IncBus"];
+        mm1.forEach((key, value) {
+          //print(key);
+          l1.add(key);
+        });
+        //l1 = m1["IncBus"];
       });
     } catch (error) {
       print(error);
@@ -51,7 +62,12 @@ class BList with ChangeNotifier {
 
       s2.docs.forEach((element) {
         Map<String, dynamic> m2 = element.data();
-        l2 = m2["IncBus"];
+        Map<String, dynamic> mm2 = m2["IncBus"];
+        mm2.forEach((key, value) {
+          //print(key);
+          l2.add(key);
+        });
+        //l2 = m2["IncBus"];
       });
 
       l1.forEach((ele1) {
@@ -156,10 +172,38 @@ class BList with ChangeNotifier {
     return _Id;
   }
 
-  Future<void> changeData(String BID, int PasData) async {
+  Future<String?> getSID(String destination) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore
+          .instance
+          .collection("Station")
+          .where("Sname", isEqualTo: destination)
+          .get();
+
+      value.docs.forEach((element) {
+        print("provider se ${element.reference.id}");
+        _sID = element.reference.id;
+
+        notifyListeners();
+      });
+    } catch (error) {
+      print(error);
+    }
+    return _sID;
+  }
+
+  Future<void> changeData(String BID, String destination, int PasData) async {
     try {
       FirebaseFirestore.instance.collection("BusQR").doc(BID).update({
-        "PasLog": PasData - 1,
+        "PasLog": PasData + 1,
+      });
+
+      String fId = "r4xqAhEvOnmdeSuS9ahD";
+
+      FirebaseFirestore.instance.collection("Station").doc(fId).update({
+        "IncBus": {
+          "UDL200": 1,
+        },
       });
       notifyListeners();
     } catch (error) {
