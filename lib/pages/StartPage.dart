@@ -22,7 +22,7 @@ class _StartPageState extends State<StartPage> {
   List<Widget> _buildScreens() {
     return [
       HomePageScreen(),
-      //Scanqr(),
+      Scanqr(),
       AllStation(),
     ];
   }
@@ -39,7 +39,7 @@ class _StartPageState extends State<StartPage> {
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.grey,
       ),
-      /* PersistentBottomNavBarItem(
+      PersistentBottomNavBarItem(
         textStyle: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class _StartPageState extends State<StartPage> {
         title: ("QR Code"),
         activeColorPrimary: Colors.blue,
         inactiveColorPrimary: Colors.grey,
-      ), */
+      ),
       PersistentBottomNavBarItem(
         textStyle: TextStyle(
           fontSize: 18,

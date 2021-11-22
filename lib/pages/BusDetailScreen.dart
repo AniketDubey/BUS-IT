@@ -20,6 +20,8 @@ class BusDetailScreen extends StatefulWidget {
 class _BusDetailScreenState extends State<BusDetailScreen> {
   bool _isLoading = true;
 
+  TextEditingController _controller = TextEditingController();
+
   void submitData() async {
     await Provider.of<BList>(context, listen: false)
         .fetchData(widget.detailInfo);
@@ -30,12 +32,23 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
   }
 
   Future<void> _updateData(
-      String busNo, String destination, int PasCount) async {
+      String busNo, String destination, int to_board) async {
     String? Bid = await Provider.of<BList>(context, listen: false).getID(busNo);
-    print(Bid);
-    if (Bid != null) {
+    String? sID =
+        await Provider.of<BList>(context, listen: false).getSID(destination);
+
+    int? sPasLog = await Provider.of<BList>(context, listen: false)
+        .getsPasLog(destination, busNo);
+
+    int? PasCount =
+        await Provider.of<BList>(context, listen: false).getPasLog(busNo);
+
+    print(PasCount);
+    //print("Bus id hai => $Bid");
+    //print("Station id hai => $sID");
+    if (Bid != null && sID != null) {
       await Provider.of<BList>(context, listen: false)
-          .changeData(Bid, destination, PasCount);
+          .changeData(Bid, PasCount, sID, sPasLog, busNo, to_board);
     }
   }
 
@@ -44,6 +57,13 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
     submitData();
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -149,6 +169,18 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                     },
                                                     itemCount: mp.length,
                                                   ),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  TextField(
+                                                    controller: _controller,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    decoration: InputDecoration(
+                                                      hintText:
+                                                          "Number of Passengers",
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -163,15 +195,24 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                               ),
                                               TextButton(
                                                 onPressed: () async {
-                                                  print(temp["BusNum"]);
-                                                  print(widget.detailInfo[
-                                                      "Destination"]);
-
+                                                  //print(temp["BusNum"]);
+                                                  /*print(widget.detailInfo[
+                                                      "Destination"]);*/
+                                                  print(_controller.text);
+                                                  int to_board = int.parse(
+                                                      _controller.text);
                                                   await _updateData(
-                                                      temp["BusNum"],
-                                                      widget.detailInfo[
-                                                          "Destination"]!,
-                                                      temp["PasLog"]);
+                                                    temp["BusNum"],
+                                                    widget.detailInfo[
+                                                        "Destination"]!,
+                                                    to_board,
+                                                  );
+
+                                                  Navigator.of(context,
+                                                          rootNavigator: true)
+                                                      .pop();
+
+                                                  Navigator.of(context).pop();
                                                 },
                                                 child: Text("Pay Now"),
                                               ),

@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, avoid_web_libraries_in_flutter, prefer_const_constructors
 
-/*import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io' show Platform;
 import 'dart:convert';
@@ -51,14 +51,14 @@ class _ScanqrState extends State<Scanqr> {
     });
   }
 
-  Future<void> _updateData(String busNo, int PasCount) async {
+  /*Future<void> _updateData(String busNo, int PasCount) async {
     String? Bid = await Provider.of<BList>(context, listen: false).getID(busNo);
     print(Bid);
     if (Bid != null) {
       await Provider.of<BList>(context, listen: false)
           .changeData(Bid, PasCount);
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +109,9 @@ class _ScanqrState extends State<Scanqr> {
 
       print("bahar se $Businfo"); */
 
-      _afterScan(busNo);
-
-      return Consumer<BList>(
+      //_afterScan(busNo);
+      return Text("Ho gaya Scan");
+      /*return Consumer<BList>(
         builder: (ctx, data, ch) {
           return _isLoading
               ? Center(child: CircularProgressIndicator())
@@ -125,7 +125,7 @@ class _ScanqrState extends State<Scanqr> {
                   actions: [
                     TextButton(
                       onPressed: () async {
-                        await _updateData(busNo, data.PasCount);
+                        //await _updateData(busNo, data.PasCount);
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (cctx) => Payment(),
@@ -138,7 +138,7 @@ class _ScanqrState extends State<Scanqr> {
                   ],
                 );
         },
-      );
+      );*/
     }
     //return Text(barcode!.code);
   }
@@ -218,4 +218,4 @@ class _ScanqrState extends State<Scanqr> {
       }
     });
   }*/
-}*/
+}

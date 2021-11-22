@@ -10,7 +10,7 @@ class BList with ChangeNotifier {
     return _l4;
   }
 
-  int _PasCount = 0;
+  int _PasCount = 0; // need to change this ahead
 
   String? _Id;
 
@@ -26,6 +26,12 @@ class BList with ChangeNotifier {
 
   int get PasCount {
     return _PasCount;
+  }
+
+  int _sPasCount = 0;
+
+  int get sPasCount {
+    return _sPasCount;
   }
 
   void setVal(int nval) => _PasCount = nval;
@@ -131,25 +137,46 @@ class BList with ChangeNotifier {
 
   Future<void> screenChange() async {
     l4.clear();
-    setVal(0);
+    //setVal(0);
   }
 
-  Future<void> getPasLog(String busNo) async {
+  Future<int> getPasLog(String busNo) async {
     try {
-      FirebaseFirestore.instance
+      QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore
+          .instance
           .collection("BusQR")
           .where("BusNum", isEqualTo: busNo)
-          .get()
-          .then((value) {
-        value.docs.forEach((element) {
-          Map<String, dynamic> Finfo = element.data();
-          _PasCount = Finfo["PasLog"];
-          notifyListeners();
-        });
+          .get();
+      value.docs.forEach((element) {
+        Map<String, dynamic> Finfo = element.data();
+        _PasCount = Finfo["PasLog"];
+        notifyListeners();
       });
     } catch (error) {
       print(error);
     }
+    return _PasCount;
+  }
+
+  Future<int> getsPasLog(String destination, String busNo) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> value = await FirebaseFirestore
+          .instance
+          .collection("Station")
+          .where("Sname", isEqualTo: destination)
+          .get();
+      value.docs.forEach((element) {
+        Map<String, dynamic> Finfo = element.data();
+        //print(Finfo);
+        Map<String, dynamic> sDMap = Finfo["IncBus"];
+        _sPasCount = sDMap[busNo];
+        //_sPasCount = Finfo["PasLog"];
+        notifyListeners();
+      });
+    } catch (error) {
+      print(error);
+    }
+    return _sPasCount;
   }
 
   Future<String?> getID(String busNo) async {
@@ -161,7 +188,7 @@ class BList with ChangeNotifier {
           .get();
 
       value.docs.forEach((element) {
-        print("provider se ${element.reference.id}");
+        //print("provider se ${element.reference.id}");
         _Id = element.reference.id;
 
         notifyListeners();
@@ -181,9 +208,9 @@ class BList with ChangeNotifier {
           .get();
 
       value.docs.forEach((element) {
-        print("provider se ${element.reference.id}");
+        //print("provider se ${element.reference.id}");
         _sID = element.reference.id;
-
+        print("station id provider se $_sID");
         notifyListeners();
       });
     } catch (error) {
@@ -192,17 +219,18 @@ class BList with ChangeNotifier {
     return _sID;
   }
 
-  Future<void> changeData(String BID, String destination, int PasData) async {
+  Future<void> changeData(String BID, int PasData, String sId, int sPasLog,
+      String busNo, int to_board) async {
     try {
       FirebaseFirestore.instance.collection("BusQR").doc(BID).update({
-        "PasLog": PasData + 1,
+        "PasLog": PasData + to_board,
       });
 
-      String fId = "r4xqAhEvOnmdeSuS9ahD";
+      //String fId = "r4xqAhEvOnmdeSuS9ahD";
 
-      FirebaseFirestore.instance.collection("Station").doc(fId).update({
+      FirebaseFirestore.instance.collection("Station").doc(sId).update({
         "IncBus": {
-          "UDL200": 1,
+          busNo: sPasLog + to_board,
         },
       });
       notifyListeners();
