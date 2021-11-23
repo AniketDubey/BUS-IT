@@ -31,6 +31,23 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
     });
   }
 
+  bool _isExpanded = false;
+  UniqueKey? keyTile;
+
+  void expandTile() {
+    setState(() {
+      _isExpanded = true;
+      keyTile = UniqueKey();
+    });
+  }
+
+  void shrinkTile() {
+    setState(() {
+      _isExpanded = false;
+      keyTile = UniqueKey();
+    });
+  }
+
   Future<void> _updateData(
       String busNo, String destination, int to_board) async {
     String? Bid = await Provider.of<BList>(context, listen: false).getID(busNo);
@@ -119,108 +136,87 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                   right: 10,
                                 ),
                                 child: Card(
-                                  child: ListTile(
+                                  child: ExpansionTile(
+                                    key: keyTile,
+                                    initiallyExpanded: _isExpanded,
+                                    childrenPadding:
+                                        EdgeInsets.all(10).copyWith(top: 0),
                                     leading: Icon(Icons.train),
                                     title: Text(temp["BusNum"]),
                                     subtitle: Text(
                                         "Available Seats ${100 - temp["PasLog"]}"),
-                                    trailing: Text("Time Required"),
-                                    onTap: () {
-                                      showDialog(
-                                        context: ctx,
-                                        builder: (cc) {
-                                          return AlertDialog(
-                                            //scrollable: true,
-                                            title: Text("Station Information"),
-                                            content: Padding(
-                                              padding: EdgeInsets.all(10),
-                                              child: Column(
+                                    //trailing: Text("Time Required"),
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text("Bus Type"),
+                                              Spacer(),
+                                              Text("AC"),
+                                            ],
+                                          ),
+                                          SizedBox(height: 10),
+                                          Row(
+                                            children: [
+                                              Text("Station Name"),
+                                              Spacer(),
+                                              Text("ETA"),
+                                              Spacer(),
+                                              Text("Delay in (min)"),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          ListView.builder(
+                                            shrinkWrap: true,
+                                            itemBuilder: (cctx, ind) {
+                                              Map<String, dynamic> sName =
+                                                  mp[(ind + 1).toString()];
+
+                                              var name = sName.keys.toString();
+                                              name = name.substring(
+                                                  1, name.length - 1);
+
+                                              return Row(
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      Text("Station Name"),
-                                                      Spacer(),
-                                                      Text("ETA"),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 15,
-                                                  ),
-                                                  ListView.builder(
-                                                    shrinkWrap: true,
-                                                    itemBuilder: (cctx, ind) {
-                                                      Map<String, dynamic>
-                                                          sName = mp[(ind + 1)
-                                                              .toString()];
-
-                                                      var name =
-                                                          sName.keys.toString();
-                                                      name = name.substring(
-                                                          1, name.length - 1);
-
-                                                      return Row(
-                                                        children: [
-                                                          Text("$name"),
-                                                          Spacer(),
-                                                          Text(
-                                                              "${sName[name][0]}"),
-                                                        ],
-                                                      );
-                                                    },
-                                                    itemCount: mp.length,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 20,
-                                                  ),
-                                                  TextField(
-                                                    controller: _controller,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    decoration: InputDecoration(
-                                                      hintText:
-                                                          "Number of Passengers",
-                                                    ),
-                                                  ),
+                                                  Text("$name"),
+                                                  Spacer(),
+                                                  Text("${sName[name][0]}"),
                                                 ],
+                                              );
+                                            },
+                                            itemCount: mp.length,
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: 85,
+                                                child: TextField(
+                                                  controller: _controller,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration: InputDecoration(
+                                                    hintText: "Ticket",
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context,
-                                                          rootNavigator: true)
-                                                      .pop();
-                                                },
-                                                child: Text("OK"),
-                                              ),
-                                              TextButton(
-                                                onPressed: () async {
-                                                  //print(temp["BusNum"]);
-                                                  /*print(widget.detailInfo[
-                                                      "Destination"]);*/
-                                                  print(_controller.text);
-                                                  int to_board = int.parse(
-                                                      _controller.text);
-                                                  await _updateData(
-                                                    temp["BusNum"],
-                                                    widget.detailInfo[
-                                                        "Destination"]!,
-                                                    to_board,
-                                                  );
-
-                                                  Navigator.of(context,
-                                                          rootNavigator: true)
-                                                      .pop();
-
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text("Pay Now"),
+                                              Spacer(),
+                                              FloatingActionButton.extended(
+                                                onPressed: () {},
+                                                label: Text("Pay Now"),
                                               ),
                                             ],
-                                          );
-                                        },
-                                      );
-                                    },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );
