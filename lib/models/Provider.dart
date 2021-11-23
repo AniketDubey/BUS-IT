@@ -222,16 +222,22 @@ class BList with ChangeNotifier {
   Future<void> changeData(String BID, int PasData, String sId, int sPasLog,
       String busNo, int to_board) async {
     try {
-      FirebaseFirestore.instance.collection("BusQR").doc(BID).update({
+      await FirebaseFirestore.instance.collection("BusQR").doc(BID).update({
         "PasLog": PasData + to_board,
       });
 
+      var data =
+          await FirebaseFirestore.instance.collection("Station").doc(sId).get();
+
+      var ndata = data.data();
+      ndata!["IncBus"][busNo] = sPasLog + to_board;
+
+      print(ndata["IncBus"][busNo]);
+
       //String fId = "r4xqAhEvOnmdeSuS9ahD";
 
-      FirebaseFirestore.instance.collection("Station").doc(sId).update({
-        "IncBus": {
-          busNo: sPasLog + to_board,
-        },
+      await FirebaseFirestore.instance.collection("Station").doc(sId).update({
+        "IncBus": ndata["IncBus"],
       });
       notifyListeners();
     } catch (error) {

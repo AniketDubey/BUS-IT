@@ -100,17 +100,39 @@ class _ScanqrState extends State<Scanqr> {
       print(animap); */ // isko isliye hataya qki isse scanning mein error aa rhi thi bina iske sahi chal rha hai
       //return Text(barcode!.code);
 
-      print(barcode!.code);
+      //print(barcode!.code);
 
-      String busNo = barcode!.code;
+      var newaniket = json.decode(barcode!.code);
+      print("changed data $newaniket");
 
+      var busNo = barcode!.code;
+
+      /* return AlertDialog(
+        title: Text("Proceed"),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              //await _updateData(busNo, data.PasCount);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (cctx) => Payment(),
+                ),
+              );
+              //setState(() {});
+            },
+            child: Text("Pay"),
+          ),
+        ],
+      ); */
+
+      return Text("Ho gaya Scan $busNo");
       /* Map<String, dynamic> Businfo = {};
       
 
       print("bahar se $Businfo"); */
 
       //_afterScan(busNo);
-      return Text("Ho gaya Scan");
+      //return Text("Ho gaya Scan");
       /*return Consumer<BList>(
         builder: (ctx, data, ch) {
           return _isLoading
@@ -158,9 +180,7 @@ class _ScanqrState extends State<Scanqr> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
+    this.controller = controller;
     controller.scannedDataStream.listen((barcode) {
       setState(() {
         this.barcode = barcode;
