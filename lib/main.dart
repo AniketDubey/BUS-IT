@@ -50,6 +50,15 @@ class MyApp extends StatelessWidget {
             ),
             elevation: 20,
           ),
+          textTheme: TextTheme(
+            headline1: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+            headline2: TextStyle(
+              fontSize: 18,
+            ),
+          ),
         ),
         home: FirstScreen(),
       ),
