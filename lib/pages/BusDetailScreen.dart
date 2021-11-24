@@ -20,6 +20,8 @@ class BusDetailScreen extends StatefulWidget {
 class _BusDetailScreenState extends State<BusDetailScreen> {
   bool _isLoading = true;
 
+  final _formKey = GlobalKey<FormState>();
+
   TextEditingController _controller = TextEditingController();
 
   void submitData() async {
@@ -83,8 +85,11 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
     super.dispose();
   }
 
+  int totalCount = 0;
+
   @override
   Widget build(BuildContext context) {
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
     return WillPopScope(
       onWillPop: () async {
         Provider.of<BList>(context, listen: false).screenChange();
@@ -136,6 +141,9 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                   right: 10,
                                 ),
                                 child: Card(
+                                  color: temp["PasLog"] == "50"
+                                      ? Colors.red
+                                      : Colors.white,
                                   child: ExpansionTile(
                                     key: keyTile,
                                     initiallyExpanded: _isExpanded,
@@ -144,7 +152,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                     leading: Icon(Icons.train),
                                     title: Text(temp["BusNum"]),
                                     subtitle: Text(
-                                        "Available Seats ${100 - temp["PasLog"]}"),
+                                        "Available Seats ${50 - temp["PasLog"]}"),
                                     //trailing: Text("Time Required"),
                                     children: [
                                       Column(
@@ -198,18 +206,29 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                             children: [
                                               Container(
                                                 width: 85,
-                                                child: TextField(
-                                                  controller: _controller,
-                                                  keyboardType:
-                                                      TextInputType.number,
-                                                  decoration: InputDecoration(
-                                                    hintText: "Ticket",
+                                                child: Form(
+                                                  child: TextFormField(
+                                                    key: _formKey,
+                                                    controller: _controller,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    decoration: InputDecoration(
+                                                      hintText: "Ticket",
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                               Spacer(),
                                               FloatingActionButton.extended(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content:
+                                                          Text("Payment Done"),
+                                                    ),
+                                                  );
+                                                },
                                                 label: Text("Pay Now"),
                                               ),
                                             ],
