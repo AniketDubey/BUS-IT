@@ -62,7 +62,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
     int? PasCount =
         await Provider.of<BList>(context, listen: false).getPasLog(busNo);
 
-    print(PasCount);
+    //print(PasCount);
     //print("Bus id hai => $Bid");
     //print("Station id hai => $sID");
     if (Bid != null && sID != null) {
@@ -85,7 +85,15 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
     super.dispose();
   }
 
-  int totalCount = 0;
+  void _showScaffold(BuildContext context, String data) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(data),
+      ),
+    );
+  }
+
+  //int totalCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +149,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                   right: 10,
                                 ),
                                 child: Card(
-                                  color: temp["PasLog"] == "50"
+                                  color: temp["PasLog"] == 50
                                       ? Colors.red
                                       : Colors.white,
                                   child: ExpansionTile(
@@ -150,23 +158,33 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                     childrenPadding:
                                         EdgeInsets.all(10).copyWith(top: 0),
                                     leading: Icon(Icons.train),
-                                    title: Text(temp["BusNum"]),
-                                    subtitle: Text(
-                                        "Available Seats ${50 - temp["PasLog"]}"),
+                                    title: Text(
+                                      temp["BusNum"],
+                                      style:
+                                          Theme.of(context).textTheme.headline1,
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Available Seats ${50 - temp["PasLog"]}",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text("Bus Type: AC"),
+                                      ],
+                                    ),
                                     //trailing: Text("Time Required"),
                                     children: [
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Row(
-                                            children: [
-                                              Text("Bus Type"),
-                                              Spacer(),
-                                              Text("AC"),
-                                            ],
-                                          ),
-                                          SizedBox(height: 10),
                                           Row(
                                             children: [
                                               Text("Station Name"),
@@ -220,14 +238,38 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                               ),
                                               Spacer(),
                                               FloatingActionButton.extended(
-                                                onPressed: () {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content:
-                                                          Text("Payment Done"),
-                                                    ),
-                                                  );
+                                                onPressed: () async {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                  String? count =
+                                                      _controller.text;
+
+                                                  if (count.isEmpty) {
+                                                    _showScaffold(context,
+                                                        "At least 1 ticket requried");
+                                                  } else {
+                                                    int val1 = temp["PasLog"];
+
+                                                    val1 = 50 - val1;
+
+                                                    int val2 = int.parse(
+                                                        _controller.text);
+
+                                                    if (val2 > val1) {
+                                                      _showScaffold(context,
+                                                          "Not enough seats avialable");
+                                                    } else {
+                                                      _showScaffold(context,
+                                                          "Payment Done");
+                                                      await _updateData(
+                                                          temp["BusNum"],
+                                                          widget.detailInfo[
+                                                              "Destination"]!,
+                                                          val2);
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }
+                                                  }
                                                 },
                                                 label: Text("Pay Now"),
                                               ),
