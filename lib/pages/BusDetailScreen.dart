@@ -187,11 +187,26 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                         children: [
                                           Row(
                                             children: [
-                                              Text("Station Name"),
+                                              Text(
+                                                "Station Name",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
                                               Spacer(),
-                                              Text("ETA"),
+                                              Text(
+                                                "ETA",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
                                               Spacer(),
-                                              Text("Delay in (min)"),
+                                              Text(
+                                                "Delay in (min)",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
                                             ],
                                           ),
                                           SizedBox(
@@ -209,9 +224,19 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
 
                                               return Row(
                                                 children: [
-                                                  Text("$name"),
+                                                  Text(
+                                                    "$name",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
                                                   Spacer(),
-                                                  Text("${sName[name][0]}"),
+                                                  Text(
+                                                    "${sName[name][0]}",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
                                                 ],
                                               );
                                             },

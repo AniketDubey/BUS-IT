@@ -42,7 +42,11 @@ class AllStation extends StatelessWidget {
 
                       s1.docs.forEach((element) {
                         Map<String, dynamic> m1 = element.data();
-                        f1 = m1["IncBus"];
+                        Map<String, dynamic> mm2 = m1["IncBus"];
+                        mm2.forEach((key, value) {
+                          f1.add(key);
+                        });
+                        print(f1);
                       });
 
                       showDialog(
@@ -58,6 +62,7 @@ class AllStation extends StatelessWidget {
                                 itemBuilder: (cctx, i) {
                                   //print(f1[i]);
                                   return Card(
+                                    color: Colors.lightBlueAccent,
                                     child: ListTile(
                                       title: Text(f1[i]),
                                     ),
