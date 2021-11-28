@@ -38,13 +38,39 @@ class HomePageScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   Provider.of<BList>(context, listen: false).screenChange();
-                  print("Source is ${details["Source"]}");
-                  print("Destination is ${details["Destination"]}");
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => BusDetailScreen(details),
-                    ),
-                  );
+                  //print("Source is ${details["Source"]}");
+                  //print("Destination is ${details["Destination"]}");
+                  String? s1 = "";
+                  s1 = details["Source"];
+                  String? s2 = "";
+                  s2 = details["Destination"];
+                  if (s1 == "" || s2 == "" || s1 == null || s2 == null) {
+                    showDialog(
+                      context: (context),
+                      builder: (cptx) {
+                        return AlertDialog(
+                          title: Text("ERROR !"),
+                          content: Text("Please eneter valid options"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Provider.of<BList>(context, listen: false)
+                                    .screenChange();
+                                Navigator.of(cptx).pop();
+                              },
+                              child: Text("OK"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => BusDetailScreen(details),
+                      ),
+                    );
+                  }
                 },
                 child: Text("OK"),
               ),
