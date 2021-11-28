@@ -9,7 +9,7 @@ class Payment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome to Payment Gateway"),
+        title: Text("Enter Station"),
       ),
       // ignore: prefer_const_constructors
       body: Center(

@@ -24,10 +24,14 @@ class _ScanqrState extends State<Scanqr> {
   bool _isLoading = true;
   Barcode? barcode;
   QRViewController? controller;
+  int? _totalPresent;
+
+  TextEditingController _controllertext = TextEditingController();
 
   @override
   void dispose() {
     controller?.dispose();
+    _controllertext.dispose();
     // TODO: implement dispose
     super.dispose();
   }
@@ -44,8 +48,9 @@ class _ScanqrState extends State<Scanqr> {
     controller!.resumeCamera();
   }
 
-  void _afterScan(String busNo) async {
-    await Provider.of<BList>(context, listen: false).getPasLog(busNo);
+  void _afterScan() async {
+    /* _totalPresent =
+        await Provider.of<BList>(context, listen: false).getPasLog(busNo); */
     setState(() {
       _isLoading = false;
     });
@@ -104,8 +109,10 @@ class _ScanqrState extends State<Scanqr> {
 
       var newaniket = json.decode(barcode!.code);
       print("changed data $newaniket");
+      //newaniket["PassLog"] = 50;
 
       var busNo = barcode!.code;
+      //print("edhar se ho rha hai $busNo");
 
       /* return AlertDialog(
         title: Text("Proceed"),
@@ -125,42 +132,65 @@ class _ScanqrState extends State<Scanqr> {
         ],
       ); */
 
-      return Text("Ho gaya Scan $busNo");
+      //return Text("Ho gaya Scan $busNo");
       /* Map<String, dynamic> Businfo = {};
       
 
       print("bahar se $Businfo"); */
-
-      //_afterScan(busNo);
+      //String busNumber = newaniket["BusNum"];
+      _afterScan();
+      //print("kitne hai $_totalPresent");
       //return Text("Ho gaya Scan");
-      /*return Consumer<BList>(
+      return Consumer<BList>(
         builder: (ctx, data, ch) {
           return _isLoading
               ? Center(child: CircularProgressIndicator())
-              : /*T extButton(
+              : newaniket["PassLog"] == 50
+                  ? AlertDialog(
+                      title: Text("No seats available"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context, rootNavigator: true).pop();
+                          },
+                          child: Text("OK"),
+                        ),
+                      ],
+                    )
+                  : /*TextButton(
                   onPressed: () {
                     print(data.PasCount);
                   },
                   child: Text("${data.PasCount}")); */
-              AlertDialog(
-                  title: Text("Click Pay to Proceed"),
-                  actions: [
-                    TextButton(
-                      onPressed: () async {
-                        //await _updateData(busNo, data.PasCount);
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (cctx) => Payment(),
+                  AlertDialog(
+                      title: Text("Click Pay to Proceed"),
+                      content: Container(
+                        width: 85,
+                        child: TextFormField(
+                          controller: _controllertext,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "Ticket",
                           ),
-                        );
-                        //setState(() {});
-                      },
-                      child: Text("Pay"),
-                    ),
-                  ],
-                );
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () async {
+                            //await _updateData(busNo, data.PasCount);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (cctx) => Payment(),
+                              ),
+                            );
+                            //setState(() {});
+                          },
+                          child: Text("Pay"),
+                        ),
+                      ],
+                    );
         },
-      );*/
+      );
     }
     //return Text(barcode!.code);
   }

@@ -111,7 +111,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
           children: [
             Positioned.fill(
               child: Image.asset(
-                "assets/b1.png",
+                "assets/b2.jfif",
                 fit: BoxFit.fill,
               ),
             ),
@@ -176,7 +176,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Text("Bus Type: AC"),
+                                        Text("Bus Type: ${temp["BusType"]}"),
                                       ],
                                     ),
                                     //trailing: Text("Time Required"),
@@ -187,24 +187,33 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                         children: [
                                           Row(
                                             children: [
-                                              Text(
-                                                "Station Name",
-                                                style: TextStyle(
-                                                  fontSize: 18,
+                                              Container(
+                                                width: 150,
+                                                child: Text(
+                                                  "Station Name",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                  ),
                                                 ),
                                               ),
                                               Spacer(),
-                                              Text(
-                                                "ETA",
-                                                style: TextStyle(
-                                                  fontSize: 18,
+                                              Container(
+                                                width: 80,
+                                                child: Text(
+                                                  "ETA",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                  ),
                                                 ),
                                               ),
                                               Spacer(),
-                                              Text(
-                                                "Delay in (min)",
-                                                style: TextStyle(
-                                                  fontSize: 18,
+                                              Container(
+                                                width: 80,
+                                                child: Text(
+                                                  "Delay",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -221,21 +230,121 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                               var name = sName.keys.toString();
                                               name = name.substring(
                                                   1, name.length - 1);
+                                              String t1 =
+                                                  sName[name][0].toString();
+
+                                              String hr1 = t1.substring(0, 2);
+                                              //print(hr1);
+                                              String min1 = t1.substring(2);
+                                              //print(min1);
+
+                                              int phr1 = int.parse(hr1);
+                                              int pmin1 = int.parse(min1);
+
+                                              String t2 =
+                                                  sName[name][1].toString();
+
+                                              String hr2 = t2.substring(0, 2);
+                                              //print(hr2);
+                                              String min2 = t2.substring(2);
+                                              //print(min2);
+
+                                              int phr2 = int.parse(hr2);
+                                              int pmin2 = int.parse(min2);
+
+                                              int fh = phr1 + phr2;
+                                              int fm = pmin1 + pmin2;
+
+                                              if (fm > 60) {
+                                                fh++;
+                                                fm = fm - 60;
+                                              }
+
+                                              String hh = "";
+                                              if (fm > 0 && fm < 10) {
+                                                hh = "0" + fm.toString();
+                                              } else if (fm == 0) {
+                                                hh = "00";
+                                              }
+
+                                              /* print(t1);
+                                              print(t2);
+
+                                              if (fm < 10) {
+                                                print("final is $fh : $hh");
+                                              } else {
+                                                print("final is $fh : $fm");
+                                              } */
+
+                                              //print(t1);
+                                              //print(h1);
 
                                               return Row(
                                                 children: [
-                                                  Text(
-                                                    "$name",
-                                                    style: TextStyle(
-                                                      fontSize: 18,
+                                                  Container(
+                                                    width: 150,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 8.0),
+                                                      child: Text(
+                                                        "$name",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
                                                   Spacer(),
-                                                  Text(
-                                                    "${sName[name][0]}",
-                                                    style: TextStyle(
-                                                      fontSize: 18,
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.only(top: 8),
+                                                    child: Container(
+                                                      width: 80,
+                                                      child: /* Text(
+                                                        "${sName[name][0]}",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ), */
+                                                          fm < 10
+                                                              ? Text(
+                                                                  "$fh : $hh",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                  ),
+                                                                )
+                                                              : Text(
+                                                                  "$fh : $fm",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        18,
+                                                                  ),
+                                                                ),
                                                     ),
+                                                  ),
+                                                  Spacer(),
+                                                  Container(
+                                                    width: 80,
+                                                    child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 8.0),
+                                                        child: /* Text(
+                                                        "${sName[name][1]}",
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ) */
+                                                            Text(
+                                                          "$hr2 : $min2",
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                          ),
+                                                        )),
                                                   ),
                                                 ],
                                               );
@@ -247,23 +356,28 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                           ),
                                           Row(
                                             children: [
+                                              Text("Time Required"),
+                                              Spacer(),
+                                              Text("Here is time"),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
                                               Container(
                                                 width: 85,
-                                                child: Form(
-                                                  child: TextFormField(
-                                                    key: _formKey,
-                                                    controller: _controller,
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                    decoration: InputDecoration(
-                                                      hintText: "Ticket",
-                                                    ),
+                                                child: TextFormField(
+                                                  controller: _controller,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  decoration: InputDecoration(
+                                                    hintText: "Ticket",
                                                   ),
                                                 ),
                                               ),
                                               Spacer(),
                                               FloatingActionButton.extended(
                                                 onPressed: () async {
+                                                  print(_controller.text);
                                                   FocusScope.of(context)
                                                       .unfocus();
                                                   String? count =
