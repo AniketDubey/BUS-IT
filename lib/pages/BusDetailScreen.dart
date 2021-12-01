@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:minoragain/models/Provider.dart';
+import 'package:minoragain/pages/IndirectBus.dart';
 import 'package:minoragain/pages/Scanqr.dart';
 import 'package:provider/provider.dart';
 //import 'package:minoragain/screens/ListofDetails.dart';
@@ -131,7 +132,13 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          IndirectBus(widget.detailInfo),
+                                    ),
+                                  );
+                                  //Navigator.of(context).pop();
                                 },
                                 child: Text("OK"),
                               )

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:io' show Platform;
 import 'dart:convert';
 import 'package:minoragain/models/Provider.dart';
+import 'package:minoragain/pages/AfterScan.dart';
 import 'package:minoragain/pages/Payment.dart';
 import 'package:provider/provider.dart';
 
@@ -180,7 +181,7 @@ class _ScanqrState extends State<Scanqr> {
                             //await _updateData(busNo, data.PasCount);
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (cctx) => Payment(),
+                                builder: (cctx) => AfterScan(newaniket),
                               ),
                             );
                             //setState(() {});
