@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
       key: _formKey,
       child: TypeAheadFormField(
         suggestionsCallback: (pattern) {
-          print(vec);
+          //print(vec);
           sList.sort((a, b) => a.sName.compareTo(b.sName));
           return sList.where(
             (items) => items.sName.toLowerCase().startsWith(

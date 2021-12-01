@@ -8,7 +8,7 @@ import 'package:minoragain/models/Provider.dart';
 import 'package:minoragain/pages/AfterScan.dart';
 import 'package:minoragain/pages/Payment.dart';
 import 'package:provider/provider.dart';
-
+import 'package:scratcher/scratcher.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -146,50 +146,52 @@ class _ScanqrState extends State<Scanqr> {
         builder: (ctx, data, ch) {
           return _isLoading
               ? Center(child: CircularProgressIndicator())
-              : newaniket["PassLog"] == 50
-                  ? AlertDialog(
-                      title: Text("No seats available"),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context, rootNavigator: true).pop();
-                          },
-                          child: Text("OK"),
+              : Scratcher(
+                  brushSize: 50,
+                  threshold: 50,
+                  color: Colors.red,
+                  image: Image.asset(
+                    "assets/outerimage.png",
+                    fit: BoxFit.fill,
+                  ),
+                  onChange: (value) => print("Scratch progress: $value%"),
+                  onThreshold: () => print("Threshold reached, you won!"),
+                  child: Container(
+                    height: 300,
+                    width: 300,
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/newimage.png",
+                          fit: BoxFit.contain,
+                          width: 150,
+                          height: 150,
                         ),
-                      ],
-                    )
-                  : /*TextButton(
-                  onPressed: () {
-                    print(data.PasCount);
-                  },
-                  child: Text("${data.PasCount}")); */
-                  AlertDialog(
-                      title: Text("Click Pay to Proceed"),
-                      content: Container(
-                        width: 85,
-                        child: TextFormField(
-                          controller: _controllertext,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            hintText: "Ticket",
-                          ),
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () async {
-                            //await _updateData(busNo, data.PasCount);
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (cctx) => AfterScan(newaniket),
+                        Column(
+                          children: [
+                            Text(
+                              "You won",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 25,
                               ),
-                            );
-                            //setState(() {});
-                          },
-                          child: Text("Pay"),
+                            ),
+                            Text(
+                              "1 Lakh",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 25,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
-                    );
+                    ),
+                  ),
+                );
         },
       );
     }

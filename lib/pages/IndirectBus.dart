@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:minoragain/models/DUMMYDATA.dart';
 import "dart:io";
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:graph_collection/graph.dart';
 import 'dart:collection';
 
 class IndirectBus extends StatelessWidget {
@@ -13,66 +14,60 @@ class IndirectBus extends StatelessWidget {
 
   IndirectBus(this.detailInfo);
 
-  void find_paths(
-      List<List<int>> paths, List<int> path, List<List<int>> parent, int u) {
-    if (u == -1) {
-      paths.add(path);
-      return;
+  /*void findname(String? str) async {
+    var s1 = await FirebaseFirestore.instance
+        .collection("Station")
+        .where("Sname", isEqualTo: str)
+        .get();
+
+    String? data;
+
+    s1.docs.forEach((element) {
+      Map<String, dynamic> m1 = element.data();
+      data = m1["Sid"];
+    });
+
+    print(data); 
+
+  }*/
+
+  List<int> vis = List.filled(50, 0);
+
+  List<int> route = [];
+
+  int check(List<List<int>> vec, int src, int dst) {
+    if (vis[src] == 1) {
+      return 0;
     }
-
-    for (int par in parent[u]) {
-      path.add(u);
-
-      find_paths(paths, path, parent, par);
-
-      path.removeLast();
-    }
-  }
-
-  void bfs(Map<int, List<int>> adj, List<List<int>> parent, int start) {
-    List<int> dist = List.filled(50, 2147483647);
-
-    Queue<int> q = Queue<int>();
-
-    q.add(start);
-    parent[start] = List.filled(50, -1);
-    dist[start] = 0;
-
-    while (!q.isEmpty) {
-      int u = q.first;
-      q.removeLast();
-      adj[u]!.forEach((v) {
-        if (dist[v] > dist[u] + 1) {
-          dist[v] = dist[u] + 1;
-          q.add(v);
-          parent[v].clear();
-          parent[v].add(u);
-        } else if (dist[v] == dist[u] + 1) {
-          parent[v].add(u);
-        }
-      });
-    }
-  }
-
-  void print_paths(Map<int, List<int>> adj, int start, int end) {
-    List<List<int>> paths = [];
-    List<int> path = [];
-    List<List<int>> parent = List.filled(50, []);
-
-    //print(parent);
-
-    bfs(adj, parent, start);
-
-    find_paths(paths, path, parent, end);
-
-    for (var v in paths) {
-      v.reversed;
-
-      for (int u in v) {
-        stdout.write(u);
+    vis[src] = 1;
+    //stdout.write("$src ->");
+    for (int x in vec[src]) {
+      if (x == dst && vis[x] == 0) {
+        //print("upar se $x");
+        route.add(x);
+        return 1;
+      } else if (vis[x] == 0 && check(vec, x, dst) == 1) {
+        //print("yahan se $x");
+        route.add(x);
+        return 1;
       }
-      print("");
     }
+    return 0;
+  }
+
+  List<String?> findList(int srci, int dsti) {
+    List<String?> _toReturn = [];
+
+    if (check(vec, srci, dsti) == 1) {
+      route.add(srci);
+    }
+
+    route.forEach((element) {
+      _toReturn.add(sInfo[element]);
+    });
+
+    List<String?> _fReturn = List.from(_toReturn.reversed);
+    return _fReturn;
   }
 
   @override
@@ -83,15 +78,33 @@ class IndirectBus extends StatelessWidget {
     String? dst = detailInfo["Destination"];
     //print(vec[24]);
 
-    print_paths(vec, 2, 10);
+    int srci = sInfo.keys.firstWhere((element) => sInfo[element] == src);
+    int dsti = sInfo.keys.firstWhere((element) => sInfo[element] == dst);
+
+    List<String?> fList = findList(srci, dsti);
+
+    //print(fList);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Indirect Bus List"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(15),
-        child: Card(),
+        padding: const EdgeInsets.all(18),
+        child: ListView.builder(
+          itemBuilder: (ctx, index) {
+            return Card(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 6),
+                child: Text(
+                  "${fList[index]}",
+                  style: Theme.of(context).textTheme.headline1,
+                ),
+              ),
+            );
+          },
+          itemCount: fList.length,
+        ),
       ),
     );
   }

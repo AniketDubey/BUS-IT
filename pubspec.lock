@@ -184,6 +184,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.5"
+  graph_collection:
+    dependency: "direct main"
+    description:
+      name: graph_collection
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   http:
     dependency: "direct main"
     description:
@@ -296,11 +303,25 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  scratcher:
+    dependency: "direct main"
+    description:
+      name: scratcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.99"
+  some:
+    dependency: transitive
+    description:
+      name: some
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   source_span:
     dependency: transitive
     description:
