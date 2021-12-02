@@ -78,7 +78,11 @@ flutter:
     - assets/t2.jpg
     - assets/b1.png
     - assets/b2.jfif
+    - assets/buslogo1.jpg
+    - assets/buslogo2.jpg
+    - assets/buslogo3.png
     - assets/newimage.png
+    - assets/
     - assets/outerimage.png
     - assets/images/
 

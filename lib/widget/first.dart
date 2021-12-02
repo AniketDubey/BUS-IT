@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:minoragain/pages/newuser.page.dart';
+import 'package:minoragain/pages/StartPage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirstTime extends StatefulWidget {
   @override
@@ -12,51 +13,48 @@ class _FirstTimeState extends State<FirstTime> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30, left: 30),
+      padding: const EdgeInsets.only(top: 40, right: 50, left: 200),
       child: Container(
-        alignment: Alignment.topRight,
-        //color: Colors.red,
-        height: 20,
-        child: Row(
-          children: <Widget>[
-            Text(
-              'Your first time?',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white70,
+        alignment: Alignment.bottomRight,
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: (Colors.blue[300])!,
+              blurRadius: 10.0, // has the effect of softening the shadow
+              spreadRadius: 1.0, // has the effect of extending the shadow
+              offset: Offset(
+                5.0, // horizontal, move right 10
+                5.0, // vertical, move down 10
               ),
             ),
-            SizedBox(
-              width: 75,
-            ),
-            FloatingActionButton.extended(
-              extendedPadding: EdgeInsets.all(20),
-              onPressed: () {},
-              label: Text(
-                "Sign Up",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            /*FlatButton(
-              padding: EdgeInsets.all(0),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => NewUser()));
-              },
-              child: Text(
-                'Sing up',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.right,
-              ),
-            ),*/
           ],
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: TextButton(
+          onPressed: () {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                Icons.arrow_back,
+                color: Colors.lightBlueAccent,
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                'SIGNUP',
+                style: TextStyle(
+                  color: Colors.lightBlueAccent,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
