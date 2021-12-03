@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_const_constructors
+// ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'BusDetailScreen.dart';
@@ -14,9 +14,37 @@ class HomePageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.yellow,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        backgroundColor: Colors.deepOrangeAccent,
         toolbarHeight: 80,
-        title: Text("Home"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.train,
+              size: 28,
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Text(
+              "Plan My Journey",
+              style: TextStyle(color: Colors.black, fontSize: 22),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Icon(
+              Icons.train,
+              size: 28,
+            ),
+          ],
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(55),
@@ -30,12 +58,18 @@ class HomePageScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(
+                height: 10,
+              ),
               HomePage("Source Station", details),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 15),
                 child: HomePage("Destination Station", details),
               ),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.deepOrangeAccent,
+                ),
                 onPressed: () {
                   Provider.of<BList>(context, listen: false).screenChange();
                   //print("Source is ${details["Source"]}");
@@ -72,12 +106,19 @@ class HomePageScreen extends StatelessWidget {
                     );
                   }
                 },
-                child: Text("OK"),
+                child: Text(
+                  "SEARCH BUSES",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               SizedBox(
                 height: 25,
               ),
-              Image.asset("assets/b1.png"),
+              Image.asset("assets/bus3.gif"),
             ],
           ),
         ),

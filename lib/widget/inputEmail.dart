@@ -17,14 +17,14 @@ class _InputEmailState extends State<InputEmail> {
         width: MediaQuery.of(context).size.width,
         child: TextField(
           style: TextStyle(
-            color: Colors.blueAccent,
+            color: Colors.black,
           ),
           decoration: InputDecoration(
             border: InputBorder.none,
-            fillColor: Colors.lightBlueAccent,
+            fillColor: Colors.black,
             labelText: 'Name',
             labelStyle: TextStyle(
-              color: Colors.blueAccent,
+              color: Colors.black,
             ),
           ),
         ),

@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:minoragain/pages/All_Station.dart';
+import 'package:minoragain/pages/AllStation.dart';
 import 'package:minoragain/pages/HomePageScreen.dart';
 import 'package:minoragain/pages/Scanqr.dart';
 

@@ -17,14 +17,14 @@ class _PasswordInputState extends State<PasswordInput> {
         width: MediaQuery.of(context).size.width,
         child: TextField(
           style: TextStyle(
-            color: Colors.blueAccent,
+            color: Colors.black,
           ),
           obscureText: true,
           decoration: InputDecoration(
             border: InputBorder.none,
             labelText: 'Password',
             labelStyle: TextStyle(
-              color: Colors.blueAccent,
+              color: Colors.black,
             ),
           ),
         ),

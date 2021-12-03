@@ -86,7 +86,7 @@ class _ScanqrState extends State<Scanqr> {
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.white24,
+                    color: Colors.white,
                   ),
                   child: buildResult(),
                 ),
@@ -98,7 +98,7 @@ class _ScanqrState extends State<Scanqr> {
                         padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.white24,
+                          color: Colors.white,
                         ),
                         child: Text(
                           "Prime Members Subscription",
@@ -118,7 +118,12 @@ class _ScanqrState extends State<Scanqr> {
 
   Widget buildResult() {
     if (barcode == null) {
-      return Text("Scan QR to Avail Offers");
+      return Text(
+        "Scan QR for Offers",
+        style: TextStyle(
+          fontSize: 18,
+        ),
+      );
     } else {
       /* var animap = json.decode(barcode!.code);
       print(animap); */ // isko isliye hataya qki isse scanning mein error aa rhi thi bina iske sahi chal rha hai
@@ -223,9 +228,9 @@ class _ScanqrState extends State<Scanqr> {
       overlay: QrScannerOverlayShape(
         cutOutSize: MediaQuery.of(context).size.width * 0.80,
         borderWidth: 10,
-        borderLength: 20,
+        borderLength: 160,
         borderRadius: 10,
-        borderColor: Colors.blueAccent,
+        borderColor: Colors.white,
       ),
     );
   }

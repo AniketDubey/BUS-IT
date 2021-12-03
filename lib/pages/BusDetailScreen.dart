@@ -106,13 +106,37 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Details"),
+          automaticallyImplyLeading: false,
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          backgroundColor: Colors.deepOrangeAccent,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "${widget.detailInfo["Source"]}",
+                style: TextStyle(color: Colors.black, fontSize: 22),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Icon(Icons.arrow_forward),
+              SizedBox(
+                width: 8,
+              ),
+              Text(
+                "${widget.detailInfo["Destination"]}",
+                style: TextStyle(color: Colors.black, fontSize: 22),
+              ),
+            ],
+          ),
         ),
         body: Stack(
           children: [
             Positioned.fill(
               child: Image.asset(
-                "assets/b2.jfif",
+                "assets/bus1.gif",
                 fit: BoxFit.fill,
               ),
             ),

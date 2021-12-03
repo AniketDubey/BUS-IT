@@ -29,18 +29,20 @@ class MyApp extends StatelessWidget {
           inputDecorationTheme: InputDecorationTheme(
             border: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Theme.of(context).primaryColor.withOpacity(0.9),
+                width: 2,
+                color: Colors.black,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Theme.of(context).primaryColor.withOpacity(0.3),
+                width: 2,
+                color: Colors.black,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 width: 2,
-                color: Theme.of(context).primaryColor.withOpacity(1),
+                color: Colors.black,
               ),
             ),
           ),
@@ -80,7 +82,7 @@ class _FirstScreenState extends State<FirstScreen> {
     super.initState();
 
     Timer(
-      Duration(seconds: 3),
+      Duration(seconds: 90),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -93,6 +95,7 @@ class _FirstScreenState extends State<FirstScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.deepOrange,
       body: Column(
         children: [
           SizedBox(
@@ -104,7 +107,7 @@ class _FirstScreenState extends State<FirstScreen> {
               child: FittedBox(
                 fit: BoxFit.fill,
                 child: Image.asset(
-                  "assets/b1.png",
+                  "assets/bus4.gif",
                 ),
               ),
             ),

@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'StartPage.dart';
@@ -54,7 +54,29 @@ class HomePage extends StatelessWidget {
         },
         textFieldConfiguration: TextFieldConfiguration(
           decoration: InputDecoration(
-            hintText: sta,
+            labelText: sta,
+            labelStyle: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 2,
+                color: Colors.black,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 2,
+                color: Colors.black,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 2,
+                color: Colors.black,
+              ),
+            ),
           ),
           controller: this._textEditingController,
         ),
