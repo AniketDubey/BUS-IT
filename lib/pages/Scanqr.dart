@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_web_libraries_in_flutter, prefer_const_constructors
+// ignore_for_file: file_names, avoid_web_libraries_in_flutter, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
@@ -91,6 +91,24 @@ class _ScanqrState extends State<Scanqr> {
                   child: buildResult(),
                 ),
               ),
+              barcode == null
+                  ? Positioned(
+                      top: 10,
+                      child: Container(
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white24,
+                        ),
+                        child: Text(
+                          "Prime Members Subscription",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Text(""),
             ],
           ),
         ),
@@ -100,7 +118,7 @@ class _ScanqrState extends State<Scanqr> {
 
   Widget buildResult() {
     if (barcode == null) {
-      return Text("Scan QR");
+      return Text("Scan QR to Avail Offers");
     } else {
       /* var animap = json.decode(barcode!.code);
       print(animap); */ // isko isliye hataya qki isse scanning mein error aa rhi thi bina iske sahi chal rha hai
