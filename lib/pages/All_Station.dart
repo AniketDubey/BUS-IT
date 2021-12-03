@@ -28,10 +28,10 @@ class AllStation extends StatelessWidget {
                 padding: EdgeInsets.all(10),
                 child: Card(
                   child: ListTile(
-                    leading: Icon(Icons.ev_station),
+                    leading: Icon(Icons.bus_alert),
                     title: Text(sList[index].sName),
                     subtitle: Text("Metro Station as well"),
-                    trailing: Icon(Icons.access_alarm),
+                    trailing: Icon(Icons.info),
                     onTap: () async {
                       var s1 = await FirebaseFirestore.instance
                           .collection("Station")
@@ -40,7 +40,7 @@ class AllStation extends StatelessWidget {
 
                       List<dynamic> f1 = [];
 
-                      s1.docs.forEach((element) {
+                      s1.docs.forEach((element) async {
                         Map<String, dynamic> m1 = element.data();
                         Map<String, dynamic> mm2 = m1["IncBus"];
                         mm2.forEach((key, value) {
@@ -73,11 +73,12 @@ class AllStation extends StatelessWidget {
                             ),
                             actions: [
                               TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pop();
-                                  },
-                                  child: Text("OK"))
+                                onPressed: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                },
+                                child: Text("OK"),
+                              ),
                             ],
                           );
                         },
