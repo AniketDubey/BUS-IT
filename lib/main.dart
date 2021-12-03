@@ -82,7 +82,7 @@ class _FirstScreenState extends State<FirstScreen> {
     super.initState();
 
     Timer(
-      Duration(seconds: 90),
+      Duration(seconds: 50),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -95,7 +95,7 @@ class _FirstScreenState extends State<FirstScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepOrange,
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           SizedBox(
@@ -107,7 +107,7 @@ class _FirstScreenState extends State<FirstScreen> {
               child: FittedBox(
                 fit: BoxFit.fill,
                 child: Image.asset(
-                  "assets/bus4.gif",
+                  "assets/bus5.gif",
                 ),
               ),
             ),
