@@ -82,7 +82,7 @@ class _FirstScreenState extends State<FirstScreen> {
     super.initState();
 
     Timer(
-      Duration(seconds: 50),
+      Duration(seconds: 5),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
