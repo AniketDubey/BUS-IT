@@ -1,16 +1,18 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'HomePage.dart';
+import 'dart:math';
+
+import 'package:intl/intl.dart';
 import 'package:minoragain/models/Provider.dart';
 import 'package:minoragain/pages/IndirectBus.dart';
 import 'package:minoragain/pages/Scanqr.dart';
 import 'package:provider/provider.dart';
-//import 'package:minoragain/screens/ListofDetails.dart';
 
 class BusDetailScreen extends StatefulWidget {
-  //const BusDetailScreen({Key? key}) : super(key: key);
-
   Map<String, String> detailInfo;
   BusDetailScreen(this.detailInfo);
 
@@ -63,9 +65,6 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
     int? PasCount =
         await Provider.of<BList>(context, listen: false).getPasLog(busNo);
 
-    //print(PasCount);
-    //print("Bus id hai => $Bid");
-    //print("Station id hai => $sID");
     if (Bid != null && sID != null) {
       await Provider.of<BList>(context, listen: false)
           .changeData(Bid, PasCount, sID, sPasLog, busNo, to_board);
@@ -94,8 +93,49 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
     );
   }
 
-  //int totalCount = 0;
+  Widget InfoGiver(String s1, var s2, BuildContext ctx) {
+    s2 = s2.toString();
+    return Row(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(ctx).size.width * 0.3,
+          child: AutoSizeText(
+            s1,
+            textAlign: TextAlign.left,
+            maxLines: 2,
+          ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(ctx).size.width * 0.3,
+          child: AutoSizeText(
+            s2,
+            textAlign: TextAlign.right,
+            maxLines: 2,
+          ),
+        ),
+      ],
+    );
+  }
 
+  Widget TopInfoGiver(String s1, var s2, BuildContext ctx) {
+    s2 = s2.toString();
+    return Row(
+      children: [
+        Text(
+          s1,
+          maxLines: 2,
+        ),
+        Spacer(),
+        Text(
+          s2,
+          maxLines: 2,
+        ),
+      ],
+    );
+  }
+
+  List<int> _fareInfo = [];
+  List<double> _fareTotal = [];
   @override
   Widget build(BuildContext context) {
     final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -105,6 +145,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
         return Future.value(true);
       },
       child: Scaffold(
+        backgroundColor: Colors.yellow,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           iconTheme: IconThemeData(
@@ -114,9 +155,14 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "${widget.detailInfo["Source"]}",
-                style: TextStyle(color: Colors.black, fontSize: 22),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: AutoSizeText(
+                  "${widget.detailInfo["Source"]}",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.black, fontSize: 22),
+                  maxLines: 2,
+                ),
               ),
               SizedBox(
                 width: 8,
@@ -125,21 +171,20 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
               SizedBox(
                 width: 8,
               ),
-              Text(
-                "${widget.detailInfo["Destination"]}",
-                style: TextStyle(color: Colors.black, fontSize: 22),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: AutoSizeText(
+                  "${widget.detailInfo["Destination"]}",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.black, fontSize: 22),
+                  maxLines: 2,
+                ),
               ),
             ],
           ),
         ),
         body: Stack(
           children: [
-            Positioned.fill(
-              child: Image.asset(
-                "assets/bus1.gif",
-                fit: BoxFit.fill,
-              ),
-            ),
             Consumer<BList>(
               builder: (ctx, data, ch) {
                 return _isLoading
@@ -154,24 +199,56 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                             title: Text("Oops !"),
                             content: Text("No bus for the route"),
                             actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          IndirectBus(widget.detailInfo),
-                                    ),
-                                  );
-                                  //Navigator.of(context).pop();
-                                },
-                                child: Text("OK"),
+                              Row(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              IndirectBus(widget.detailInfo),
+                                        ),
+                                      );
+                                    },
+                                    child: Text("Alternate Routes"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("BACK"),
+                                  ),
+                                ],
                               )
                             ],
                           )
                         : ListView.builder(
                             itemBuilder: (ctx, index) {
+                              int _busFare = 0;
+                              List<int> sdata = [];
                               Map<String, dynamic> temp = data.l4[index];
                               Map<String, dynamic> mp = temp["Sdetails"];
+                              mp.forEach((key, value) {
+                                Map<String, dynamic> newmp = value;
+                                newmp.forEach((key, value) {
+                                  if (key == widget.detailInfo["Source"]) {
+                                    List<dynamic> _storeData = value;
+                                    sdata.add(_storeData[2]);
+                                  } else if (key ==
+                                      widget.detailInfo["Destination"]) {
+                                    List<dynamic> _storeData = value;
+                                    sdata.add(_storeData[2]);
+                                  }
+                                });
+                              });
+
+                              _fareInfo.add(sdata[1] - sdata[0]);
+                              if (temp["BusType"] == "AC") {
+                                _fareTotal.add((sdata[1] - sdata[0]) * 14.25);
+                              } else {
+                                _fareTotal.add((sdata[1] - sdata[0]) * 7.25);
+                              }
+                              sdata.clear();
 
                               return Padding(
                                 padding: EdgeInsets.only(
@@ -210,7 +287,6 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                         Text("Bus Type: ${temp["BusType"]}"),
                                       ],
                                     ),
-                                    //trailing: Text("Time Required"),
                                     children: [
                                       Column(
                                         crossAxisAlignment:
@@ -224,6 +300,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                   "Station Name",
                                                   style: TextStyle(
                                                     fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                               ),
@@ -234,6 +311,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                   "ETA",
                                                   style: TextStyle(
                                                     fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                               ),
@@ -241,9 +319,10 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                               Container(
                                                 width: 80,
                                                 child: Text(
-                                                  "Delay",
+                                                  "Expected \n   Delay",
                                                   style: TextStyle(
                                                     fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                               ),
@@ -261,13 +340,13 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                               var name = sName.keys.toString();
                                               name = name.substring(
                                                   1, name.length - 1);
+
                                               String t1 =
                                                   sName[name][0].toString();
 
                                               String hr1 = t1.substring(0, 2);
-                                              //print(hr1);
+
                                               String min1 = t1.substring(2);
-                                              //print(min1);
 
                                               int phr1 = int.parse(hr1);
                                               int pmin1 = int.parse(min1);
@@ -276,9 +355,8 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                   sName[name][1].toString();
 
                                               String hr2 = t2.substring(0, 2);
-                                              //print(hr2);
+
                                               String min2 = t2.substring(2);
-                                              //print(min2);
 
                                               int phr2 = int.parse(hr2);
                                               int pmin2 = int.parse(min2);
@@ -298,18 +376,6 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                 hh = "00";
                                               }
 
-                                              /* print(t1);
-                                              print(t2);
-
-                                              if (fm < 10) {
-                                                print("final is $fh : $hh");
-                                              } else {
-                                                print("final is $fh : $fm");
-                                              } */
-
-                                              //print(t1);
-                                              //print(h1);
-
                                               return Row(
                                                 children: [
                                                   Container(
@@ -318,10 +384,12 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                       padding:
                                                           const EdgeInsets.only(
                                                               top: 8.0),
-                                                      child: Text(
-                                                        "$name",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
+                                                      child: Expanded(
+                                                        child: Text(
+                                                          "$name",
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -332,29 +400,19 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                         EdgeInsets.only(top: 8),
                                                     child: Container(
                                                       width: 80,
-                                                      child: /* Text(
-                                                        "${sName[name][0]}",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ), */
-                                                          fm < 10
-                                                              ? Text(
-                                                                  "$fh : $hh",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        18,
-                                                                  ),
-                                                                )
-                                                              : Text(
-                                                                  "$fh : $fm",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        18,
-                                                                  ),
-                                                                ),
+                                                      child: fm < 10
+                                                          ? Text(
+                                                              "$fh : $hh",
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                              ),
+                                                            )
+                                                          : Text(
+                                                              "$fh : $fm",
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                              ),
+                                                            ),
                                                     ),
                                                   ),
                                                   Spacer(),
@@ -364,13 +422,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(top: 8.0),
-                                                        child: /* Text(
-                                                        "${sName[name][1]}",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ) */
-                                                            Text(
+                                                        child: Text(
                                                           "$hr2 : $min2",
                                                           style: TextStyle(
                                                             fontSize: 18,
@@ -387,61 +439,293 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                           ),
                                           Row(
                                             children: [
-                                              Text("Time Required"),
+                                              Text(
+                                                "Time Required",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
                                               Spacer(),
-                                              Text("Here is time"),
+                                              Text(
+                                                "00:00",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
                                             ],
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Travel Distance",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Text(
+                                                "${_fareInfo[index]} KM",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Total Fare Per Head",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Text(
+                                                "${_fareTotal[index]} ₹",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 20,
                                           ),
                                           Row(
                                             children: [
                                               Container(
-                                                width: 85,
+                                                width: 125,
                                                 child: TextFormField(
                                                   controller: _controller,
                                                   keyboardType:
                                                       TextInputType.number,
                                                   decoration: InputDecoration(
-                                                    hintText: "Ticket",
+                                                    hintText: "Passengers",
                                                   ),
                                                 ),
                                               ),
                                               Spacer(),
                                               FloatingActionButton.extended(
-                                                onPressed: () async {
-                                                  print(_controller.text);
-                                                  FocusScope.of(context)
-                                                      .unfocus();
-                                                  String? count =
-                                                      _controller.text;
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: ctx,
+                                                    builder: (bui) {
+                                                      DateTime now =
+                                                          DateTime.now();
+                                                      int tID = Random()
+                                                              .nextInt(100000) +
+                                                          1000000;
+                                                      String? cText =
+                                                          _controller.text;
 
-                                                  if (count.isEmpty) {
-                                                    _showScaffold(context,
-                                                        "At least 1 ticket requried");
-                                                  } else {
-                                                    int val1 = temp["PasLog"];
+                                                      int avaiSeats =
+                                                          temp["PasLog"];
 
-                                                    val1 = 50 - val1;
+                                                      avaiSeats =
+                                                          50 - avaiSeats;
+                                                      int pasCountTotal = 0;
 
-                                                    int val2 = int.parse(
-                                                        _controller.text);
+                                                      if (cText.isNotEmpty) {
+                                                        pasCountTotal =
+                                                            int.parse(cText);
+                                                      }
 
-                                                    if (val2 > val1) {
-                                                      _showScaffold(context,
-                                                          "Not enough seats avialable");
-                                                    } else {
-                                                      _showScaffold(context,
-                                                          "Payment Done");
-                                                      await _updateData(
-                                                          temp["BusNum"],
-                                                          widget.detailInfo[
-                                                              "Destination"]!,
-                                                          val2);
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    }
-                                                  }
+                                                      if (cText.isEmpty) {
+                                                        return AlertDialog(
+                                                          title: Text("ERROR"),
+                                                          content: Text(
+                                                              "At least 1 Ticket Required"),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context,
+                                                                        rootNavigator:
+                                                                            true)
+                                                                    .pop();
+                                                              },
+                                                              child: Text(
+                                                                  "Go Back"),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      } else if (avaiSeats <
+                                                          pasCountTotal) {
+                                                        return AlertDialog(
+                                                          title: Text("ERROR"),
+                                                          content: Text(
+                                                              "Not Enough seats"),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context,
+                                                                        rootNavigator:
+                                                                            true)
+                                                                    .pop();
+                                                              },
+                                                              child: Text(
+                                                                  "Go Back"),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      }
+
+                                                      return AlertDialog(
+                                                        title: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text("BUS IT"),
+                                                          ],
+                                                        ),
+                                                        content: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                    "Date: ${now.day}-${now.month}-${now.year}"),
+                                                                Spacer(),
+                                                                Text(
+                                                                    "Time:  ${now.hour}:${now.minute}"),
+                                                              ],
+                                                            ),
+                                                            TopInfoGiver(
+                                                                "Transaction Id: ",
+                                                                tID,
+                                                                ctx),
+                                                            SizedBox(
+                                                              height: 3,
+                                                            ),
+                                                            TopInfoGiver(
+                                                                "Customer Name: ",
+                                                                "acb xyz",
+                                                                ctx),
+                                                            SizedBox(
+                                                              height: 3,
+                                                            ),
+                                                            TopInfoGiver(
+                                                                "Mobile No: ",
+                                                                "0123456789",
+                                                                ctx),
+                                                            SizedBox(
+                                                              height: 3,
+                                                            ),
+                                                            TopInfoGiver(
+                                                                "Email-ID: ",
+                                                                "abc@gmail.com",
+                                                                ctx),
+                                                            SizedBox(
+                                                                height: 20),
+                                                            Row(
+                                                              children: [
+                                                                SizedBox(
+                                                                    width: 60),
+                                                                Text(
+                                                                    "Travel Details"),
+                                                              ],
+                                                            ),
+                                                            Divider(
+                                                              color:
+                                                                  Colors.black,
+                                                              thickness: 2,
+                                                            ),
+                                                            SizedBox(
+                                                                height: 20),
+                                                            InfoGiver(
+                                                                "Source ",
+                                                                widget.detailInfo[
+                                                                    "Source"],
+                                                                ctx),
+                                                            SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            InfoGiver(
+                                                                "Destination: ",
+                                                                widget.detailInfo[
+                                                                    "Destination"],
+                                                                ctx),
+                                                            SizedBox(
+                                                              height: 8,
+                                                            ),
+                                                            TopInfoGiver(
+                                                                "BusID: ",
+                                                                temp["BusNum"],
+                                                                ctx),
+                                                            SizedBox(
+                                                              height: 3,
+                                                            ),
+                                                            TopInfoGiver(
+                                                                "No of Tickets: ",
+                                                                _controller
+                                                                    .text,
+                                                                ctx),
+                                                            SizedBox(
+                                                              height: 3,
+                                                            ),
+                                                            TopInfoGiver(
+                                                                "Price per Head: ",
+                                                                _fareTotal[
+                                                                    index],
+                                                                ctx),
+                                                            SizedBox(
+                                                              height: 3,
+                                                            ),
+                                                            TopInfoGiver(
+                                                                "Total Price: ",
+                                                                pasCountTotal *
+                                                                    _fareTotal[
+                                                                        index],
+                                                                ctx),
+                                                          ],
+                                                        ),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {},
+                                                            child:
+                                                                FloatingActionButton
+                                                                    .extended(
+                                                              onPressed:
+                                                                  () async {
+                                                                await _updateData(
+                                                                    temp[
+                                                                        "BusNum"],
+                                                                    widget.detailInfo[
+                                                                        "Destination"]!,
+                                                                    pasCountTotal);
+
+                                                                Navigator.of(
+                                                                        context,
+                                                                        rootNavigator:
+                                                                            true)
+                                                                    .pop();
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              label: Text(
+                                                                  "Pay Now"),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
                                                 },
-                                                label: Text("Pay Now"),
+                                                label: Text("Proceed"),
                                               ),
                                             ],
                                           ),
