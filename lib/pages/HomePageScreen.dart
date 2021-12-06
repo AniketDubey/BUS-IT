@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'BusDetailScreen.dart';
 import 'package:minoragain/pages/HomePage.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:minoragain/models/Provider.dart';
 
@@ -13,6 +14,7 @@ class HomePageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
     return Scaffold(
       backgroundColor: Colors.yellow,
       appBar: AppBar(
@@ -61,63 +63,138 @@ class HomePageScreen extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
+              Row(
+                children: [
+                  Text(
+                    "${now.day}/${now.month}/${now.year}",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    DateFormat.jm().format(DateTime.now()),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
               HomePage("Source Station", details),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 15),
                 child: HomePage("Destination Station", details),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.deepOrangeAccent,
-                ),
-                onPressed: () {
-                  Provider.of<BList>(context, listen: false).screenChange();
-                  //print("Source is ${details["Source"]}");
-                  //print("Destination is ${details["Destination"]}");
-                  String? s1 = "";
-                  s1 = details["Source"];
-                  String? s2 = "";
-                  s2 = details["Destination"];
-                  if (s1 == "" ||
-                      s2 == "" ||
-                      s1 == null ||
-                      s2 == null ||
-                      (s1 == s2)) {
-                    showDialog(
-                      context: (context),
-                      builder: (cptx) {
-                        return AlertDialog(
-                          title: Text("ERROR !"),
-                          content: Text("Please eneter valid options"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Provider.of<BList>(context, listen: false)
-                                    .screenChange();
-                                Navigator.of(cptx).pop();
-                              },
-                              child: Text("OK"),
+              Row(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.deepOrangeAccent),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (bui) {
+                          return AlertDialog(
+                            title: Text(
+                              "Price Brochure",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ],
-                        );
-                      },
-                    );
-                  } else {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => BusDetailScreen(details),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text("NON AC PRICE: 100"),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text("AC PRICE: 100"),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                },
+                                child: Text("OK"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Text(
+                      "   Price \nBrochure",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
-                    );
-                  }
-                },
-                child: Text(
-                  "SEARCH BUSES",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                  Spacer(),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.deepOrangeAccent,
+                    ),
+                    onPressed: () {
+                      Provider.of<BList>(context, listen: false).screenChange();
+                      //print("Source is ${details["Source"]}");
+                      //print("Destination is ${details["Destination"]}");
+                      String? s1 = "";
+                      s1 = details["Source"];
+                      String? s2 = "";
+                      s2 = details["Destination"];
+                      if (s1 == "" ||
+                          s2 == "" ||
+                          s1 == null ||
+                          s2 == null ||
+                          (s1 == s2)) {
+                        showDialog(
+                          context: (context),
+                          builder: (cptx) {
+                            return AlertDialog(
+                              title: Text("ERROR !"),
+                              content: Text("Please eneter valid options"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Provider.of<BList>(context, listen: false)
+                                        .screenChange();
+                                    Navigator.of(cptx).pop();
+                                  },
+                                  child: Text("OK"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => BusDetailScreen(details),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      "SEARCH BUSES",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 25,

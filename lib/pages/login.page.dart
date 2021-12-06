@@ -1,11 +1,13 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:minoragain/pages/AfterScan.dart';
 import 'package:minoragain/pages/HomePageScreen.dart';
 import 'package:minoragain/widget/button.dart';
 import 'package:minoragain/widget/first.dart';
 import 'package:minoragain/widget/forgot.dart';
 import 'StartPage.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:minoragain/widget/inputEmail.dart';
 import 'package:minoragain/widget/password.dart';
 import 'package:minoragain/widget/textLogin.dart';
@@ -235,7 +237,14 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          const url = 'https://flutter.dev';
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        },
                         child: Row(
                           children: [
                             Text("About\n  Us"),

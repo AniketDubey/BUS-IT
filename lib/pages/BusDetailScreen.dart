@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'HomePage.dart';
 import 'dart:math';
-
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:minoragain/models/Provider.dart';
 import 'package:minoragain/pages/IndirectBus.dart';
@@ -24,6 +24,8 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
   bool _isLoading = true;
 
   final _formKey = GlobalKey<FormState>();
+
+  late Razorpay _razorpay;
 
   TextEditingController _controller = TextEditingController();
 
@@ -75,6 +77,10 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
   void initState() {
     submitData();
     // TODO: implement initState
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
   }
 
@@ -82,7 +88,19 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
   void dispose() {
     _controller.dispose();
     // TODO: implement dispose
+
     super.dispose();
+    _razorpay.clear();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {}
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet was selected
   }
 
   void _showScaffold(BuildContext context, String data) {
@@ -224,7 +242,6 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                           )
                         : ListView.builder(
                             itemBuilder: (ctx, index) {
-                              int _busFare = 0;
                               List<int> sdata = [];
                               Map<String, dynamic> temp = data.l4[index];
                               Map<String, dynamic> mp = temp["Sdetails"];
@@ -693,32 +710,53 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                           ],
                                                         ),
                                                         actions: [
-                                                          TextButton(
-                                                            onPressed: () {},
-                                                            child:
-                                                                FloatingActionButton
-                                                                    .extended(
-                                                              onPressed:
-                                                                  () async {
-                                                                await _updateData(
-                                                                    temp[
-                                                                        "BusNum"],
-                                                                    widget.detailInfo[
-                                                                        "Destination"]!,
-                                                                    pasCountTotal);
+                                                          FloatingActionButton
+                                                              .extended(
+                                                            onPressed:
+                                                                () async {
+                                                              var options = {
+                                                                'key':
+                                                                    "rzp_test_LAi8gffdffQaA2",
+                                                                'amount': (pasCountTotal *
+                                                                        _fareTotal[
+                                                                            index] *
+                                                                        100)
+                                                                    .toString(), //in the smallest currency sub-unit.
+                                                                'name':
+                                                                    'Aniket Dubey Minor',
+                                                                'description':
+                                                                    'Demo',
+                                                                'timeout':
+                                                                    300, // in seconds
+                                                                'prefill': {
+                                                                  'contact':
+                                                                      '0123456798',
+                                                                  'email':
+                                                                      'aniket.dubey0206@gmail.com'
+                                                                }
+                                                              };
 
-                                                                Navigator.of(
-                                                                        context,
-                                                                        rootNavigator:
-                                                                            true)
-                                                                    .pop();
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                              label: Text(
-                                                                  "Pay Now"),
-                                                            ),
+                                                              _razorpay.open(
+                                                                  options);
+
+                                                              await _updateData(
+                                                                  temp[
+                                                                      "BusNum"],
+                                                                  widget.detailInfo[
+                                                                      "Destination"]!,
+                                                                  pasCountTotal);
+
+                                                              Navigator.of(
+                                                                      context,
+                                                                      rootNavigator:
+                                                                          true)
+                                                                  .pop();
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            label:
+                                                                Text("Pay Now"),
                                                           ),
                                                         ],
                                                       );
