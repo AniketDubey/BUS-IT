@@ -36,8 +36,8 @@ class _StartPageState extends State<StartPage> {
         ),
         icon: Icon(Icons.book),
         title: ("Book Us"),
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.grey,
+        activeColorPrimary: Colors.blueGrey,
+        inactiveColorPrimary: Colors.black,
       ),
       PersistentBottomNavBarItem(
         textStyle: TextStyle(
@@ -46,8 +46,8 @@ class _StartPageState extends State<StartPage> {
         ),
         icon: Icon(Icons.qr_code),
         title: ("QR Code"),
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.grey,
+        activeColorPrimary: Colors.blueGrey,
+        inactiveColorPrimary: Colors.black,
       ),
       PersistentBottomNavBarItem(
         textStyle: TextStyle(
@@ -55,9 +55,9 @@ class _StartPageState extends State<StartPage> {
           fontWeight: FontWeight.bold,
         ),
         icon: Icon(Icons.home),
-        title: ("Station Info"),
-        activeColorPrimary: Colors.blue,
-        inactiveColorPrimary: Colors.grey,
+        title: ("Station \n Info"),
+        activeColorPrimary: Colors.blueGrey,
+        inactiveColorPrimary: Colors.black,
       ),
     ];
   }
@@ -70,7 +70,7 @@ class _StartPageState extends State<StartPage> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.white, // Default is Colors.white.
+      backgroundColor: Colors.yellow, // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.
       resizeToAvoidBottomInset:
           false, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.

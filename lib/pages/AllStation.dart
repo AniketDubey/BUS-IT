@@ -47,17 +47,22 @@ class _AllStationState extends State<AllStation> {
   Widget build(BuildContext context) {
     sList.sort((a, b) => a.sName.compareTo(b.sName));
     return Scaffold(
+      backgroundColor: Colors.yellow,
       appBar: AppBar(
-        title: Text("All Stations"),
+        title: Text(
+          "All Stations",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.deepOrangeAccent,
       ),
       body: Stack(
         children: [
-          Positioned.fill(
+          /*Positioned.fill(
             child: Image.asset(
               "assets/b1.png",
               fit: BoxFit.fill,
             ),
-          ),
+          ),*/
           ListView.builder(
             itemBuilder: (ctx, index) {
               return Padding(

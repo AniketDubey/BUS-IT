@@ -78,7 +78,11 @@ class HomePageScreen extends StatelessWidget {
                   s1 = details["Source"];
                   String? s2 = "";
                   s2 = details["Destination"];
-                  if (s1 == "" || s2 == "" || s1 == null || s2 == null) {
+                  if (s1 == "" ||
+                      s2 == "" ||
+                      s1 == null ||
+                      s2 == null ||
+                      (s1 == s2)) {
                     showDialog(
                       context: (context),
                       builder: (cptx) {

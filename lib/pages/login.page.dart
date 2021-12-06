@@ -5,6 +5,7 @@ import 'package:minoragain/pages/HomePageScreen.dart';
 import 'package:minoragain/widget/button.dart';
 import 'package:minoragain/widget/first.dart';
 import 'package:minoragain/widget/forgot.dart';
+import 'StartPage.dart';
 import 'package:minoragain/widget/inputEmail.dart';
 import 'package:minoragain/widget/password.dart';
 import 'package:minoragain/widget/textLogin.dart';
@@ -119,8 +120,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => HomePageScreen()));
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => StartPage()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

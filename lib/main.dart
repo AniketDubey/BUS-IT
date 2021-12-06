@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'models/Provider.dart';
 
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:minoragain/pages/login.page.dart';
 
 void main() async {
@@ -115,27 +116,18 @@ class _FirstScreenState extends State<FirstScreen> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          Text(
-            "BUS IT",
-            style: TextStyle(
-              fontSize: 52,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.copyright),
-              Text(
-                "AAT",
-                style: TextStyle(
-                  fontSize: 30,
+          AnimatedTextKit(
+            repeatForever: true,
+            isRepeatingAnimation: true,
+            animatedTexts: [
+              WavyAnimatedText(
+                "BUS IT",
+                textStyle: TextStyle(
+                  fontSize: 52,
                   fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
                 ),
+                speed: Duration(milliseconds: 200),
               ),
             ],
           ),
@@ -195,7 +187,10 @@ class SecondScreen extends StatelessWidget {
               height: 20,
             ),
             Text(
-              "Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2 virus. Most people who fall sick with COVID-19 will experience mild to moderate symptoms and recover without special treatment. However, some will become seriously ill and require medical attention",
+              " • All passengers are advised to download the Aarogya Setu app on their mobile phones.\n"
+              " • All passengers are required to use face covers/masks, and are required to follow hand hygiene, respiratory hygiene, and environmental hygiene.\n"
+              " • All travellers must follow social distancing measures at bus terminals.\n"
+              " • Travelers with quarantine seal mark will not be allowed to board the bus",
               textAlign: TextAlign.left,
             ),
           ],
