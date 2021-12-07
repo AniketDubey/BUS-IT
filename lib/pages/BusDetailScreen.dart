@@ -22,6 +22,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  int fhf = 0, fmf = 0;
   late Razorpay _razorpay;
 
   TextEditingController _controller = TextEditingController();
@@ -239,6 +240,18 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                           )
                         : ListView.builder(
                             itemBuilder: (ctx, index) {
+                              String e1 = "",
+                                  d1 = "",
+                                  e2 = "",
+                                  d2 = "",
+                                  eh1 = "",
+                                  eh2 = "",
+                                  em1 = "",
+                                  em2 = "",
+                                  dm1 = "",
+                                  dm2 = "";
+
+                              int ieh1, iem1, ieh2, iem2, idm1, idm2;
                               List<int> sdata = [];
                               Map<String, dynamic> temp = data.l4[index];
                               Map<String, dynamic> mp = temp["Sdetails"];
@@ -247,20 +260,61 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                 newmp.forEach((key, value) {
                                   if (key == widget.detailInfo["Source"]) {
                                     List<dynamic> _storeData = value;
+                                    e1 = _storeData[0].toString();
+                                    d1 = _storeData[1].toString();
                                     sdata.add(_storeData[2]);
                                   } else if (key ==
                                       widget.detailInfo["Destination"]) {
                                     List<dynamic> _storeData = value;
+                                    e2 = _storeData[0].toString();
+                                    d2 = _storeData[1].toString();
                                     sdata.add(_storeData[2]);
                                   }
                                 });
                               });
 
+                              eh1 = e1.substring(0, 2);
+                              em1 = e1.substring(2);
+                              eh2 = e2.substring(0, 2);
+                              em2 = e2.substring(2);
+                              dm1 = d1.substring(2);
+                              dm2 = d2.substring(2);
+
+                              ieh1 = int.parse(eh1);
+                              iem1 = int.parse(em1);
+                              ieh2 = int.parse(eh2);
+                              iem2 = int.parse(em2);
+                              idm1 = int.parse(dm1);
+                              idm2 = int.parse(dm2);
+
+                              int flag = 0;
+
+                              iem1 = iem1 + idm1;
+                              iem2 = iem2 + idm2;
+                              if (iem1 > 60) {
+                                iem1 = iem1 - 60;
+                                ieh1 = ieh1 + 1;
+                              }
+
+                              if (iem2 > 60) {
+                                iem2 = iem2 - 60;
+                                ieh2 = ieh2 + 1;
+                              }
+
+                              if (iem2 > iem1) {
+                                fmf = iem2 - iem1;
+                                fhf = ieh2 - ieh1;
+                              } else {
+                                fmf = (60 - iem1) + iem2;
+                                fmf = fmf.abs();
+                                fhf = ieh2 - ieh1 - 1;
+                              }
+
                               _fareInfo.add(sdata[1] - sdata[0]);
                               if (temp["BusType"] == "AC") {
-                                _fareTotal.add((sdata[1] - sdata[0]) * 14.25);
+                                _fareTotal.add((sdata[1] - sdata[0]) * 15);
                               } else {
-                                _fareTotal.add((sdata[1] - sdata[0]) * 7.25);
+                                _fareTotal.add((sdata[1] - sdata[0]) * 10);
                               }
                               sdata.clear();
 
@@ -462,7 +516,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                               ),
                                               Spacer(),
                                               Text(
-                                                "00:00",
+                                                "$fhf : $fmf",
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                 ),
