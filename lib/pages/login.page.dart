@@ -1,17 +1,12 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:minoragain/pages/AfterScan.dart';
-import 'package:minoragain/pages/HomePageScreen.dart';
-import 'package:minoragain/widget/button.dart';
-import 'package:minoragain/widget/first.dart';
-import 'package:minoragain/widget/forgot.dart';
-import 'StartPage.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:minoragain/pages/newuserPage.dart';
 import 'package:minoragain/widget/inputEmail.dart';
 import 'package:minoragain/widget/password.dart';
-import 'package:minoragain/widget/textLogin.dart';
-import 'package:minoragain/widget/verticalText.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'StartPage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -53,8 +48,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 InputEmail(),
                 PasswordInput(),
-                /* FirstTime(),
-                ButtonLogin(), */
                 SizedBox(
                   height: 20,
                 ),
@@ -82,7 +75,10 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (_) => NewUser()));
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

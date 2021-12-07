@@ -1,16 +1,13 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_interpolations
 
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'HomePage.dart';
 import 'dart:math';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:intl/intl.dart';
+
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
 import 'package:minoragain/models/Provider.dart';
 import 'package:minoragain/pages/IndirectBus.dart';
-import 'package:minoragain/pages/Scanqr.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class BusDetailScreen extends StatefulWidget {
   Map<String, String> detailInfo;
@@ -533,6 +530,8 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                               Spacer(),
                                               FloatingActionButton.extended(
                                                 onPressed: () {
+                                                  FocusScope.of(ctx)
+                                                      .unfocus(); // yahn pr add hua
                                                   showDialog(
                                                     context: ctx,
                                                     builder: (bui) {
@@ -595,8 +594,27 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                             ),
                                                           ],
                                                         );
+                                                      } else if (pasCountTotal ==
+                                                          0) {
+                                                        return AlertDialog(
+                                                          title: Text("ERROR"),
+                                                          content: Text(
+                                                              "Select at least 1 seat"),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context,
+                                                                        rootNavigator:
+                                                                            true)
+                                                                    .pop();
+                                                              },
+                                                              child: Text(
+                                                                  "Go Back"),
+                                                            ),
+                                                          ],
+                                                        );
                                                       }
-
                                                       return AlertDialog(
                                                         title: Row(
                                                           mainAxisAlignment:
@@ -714,6 +732,8 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                               .extended(
                                                             onPressed:
                                                                 () async {
+                                                              FocusScope.of(ctx)
+                                                                  .unfocus(); // yahan pr add hua hai
                                                               var options = {
                                                                 'key':
                                                                     "rzp_test_LAi8gffdffQaA2",

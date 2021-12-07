@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:minoragain/models/Station.dart';
-import 'package:minoragain/models/Transaction.dart';
 
 List<Station> sList = [
   Station(sName: "Rajiv Chowk"),

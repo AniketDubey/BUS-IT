@@ -51,10 +51,8 @@ class BList with ChangeNotifier {
         Map<String, dynamic> m1 = element.data();
         Map<String, dynamic> mm1 = m1["IncBus"];
         mm1.forEach((key, value) {
-          //print(key);
           l1.add(key);
         });
-        //l1 = m1["IncBus"];
       });
     } catch (error) {
       print(error);
@@ -70,10 +68,8 @@ class BList with ChangeNotifier {
         Map<String, dynamic> m2 = element.data();
         Map<String, dynamic> mm2 = m2["IncBus"];
         mm2.forEach((key, value) {
-          //print(key);
           l2.add(key);
         });
-        //l2 = m2["IncBus"];
       });
 
       l1.forEach((ele1) {
@@ -84,7 +80,6 @@ class BList with ChangeNotifier {
 
       l3.forEach(
         (element) async {
-          //print(element);
           var s3 = await FirebaseFirestore.instance
               .collection("BusQR")
               .where("BusNum", isEqualTo: element)
@@ -94,33 +89,22 @@ class BList with ChangeNotifier {
               Map<String, dynamic> m3 = elems.data();
               Map<String, dynamic> temp = m3["Sdetails"];
 
-              //print("yahanse $temp");
-
               var index1 = temp.keys.firstWhere((ele) {
                 Map<String, dynamic> temp2 = temp[ele];
                 return (temp2.containsKey("${_details["Source"]}"));
               });
-
-              //print("C -> $index1");
 
               var index2 = temp.keys.firstWhere((ele) {
                 Map<String, dynamic> temp2 = temp[ele];
                 return (temp2.containsKey("${_details["Destination"]}"));
               });
 
-              //print("T -> $index2");
-
               int a = int.parse(index1);
               int b = int.parse(index2);
 
-              //print(b - a);
-
               if ((b - a) > 0) {
-                //print("andar aaya main");
-
                 _l4.add(m3);
                 notifyListeners();
-                //print(_l4);
               }
             },
           );
@@ -129,15 +113,10 @@ class BList with ChangeNotifier {
     } catch (error) {
       print(error);
     }
-
-    /* notifyListeners();
-    print("notify listener ke upar $amit");
-    print("l4 ki updated length${_l4.length}"); */
   }
 
   Future<void> screenChange() async {
     l4.clear();
-    //setVal(0);
   }
 
   Future<int> getPasLog(String busNo) async {

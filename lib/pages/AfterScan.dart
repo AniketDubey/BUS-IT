@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class AfterScan extends StatefulWidget {
-  //const AfterScan({Key? key}) : super(key: key);
-
   @override
   State<AfterScan> createState() => _AfterScanState();
 }

@@ -14,7 +14,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Hello Mr. User"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.deepOrangeAccent,
+        title: Text(
+          "Hello Mr. User",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       drawer: Drawer(
         elevation: 15,
@@ -22,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.green,
+                color: Colors.deepOrangeAccent,
               ),
               child: Text(
                 "BUS ME UP",
@@ -36,17 +43,23 @@ class _ProfilePageState extends State<ProfilePage> {
               leading: Icon(Icons.settings),
               title: Text("Settings"),
             ),
-            Divider(),
+            Divider(
+              thickness: 2,
+            ),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text("Logout"),
             ),
-            Divider(),
+            Divider(
+              thickness: 2,
+            ),
             ListTile(
               leading: Icon(Icons.wallet_travel),
               title: Text("Past Bookings"),
             ),
-            Divider(),
+            Divider(
+              thickness: 2,
+            ),
             ListTile(
               leading: Icon(Icons.wallet_membership),
               title: Text("Prime Members"),
@@ -54,8 +67,15 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
-      body: Center(
-        child: Text("Your Profile"),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              "assets/profile.gif",
+              fit: BoxFit.fill,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,14 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:async';
-import 'dart:convert';
-import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'models/Provider.dart';
-import 'package:bulleted_list/bulleted_list.dart';
-import 'package:flutter/material.dart';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:bulleted_list/bulleted_list.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:minoragain/pages/login.page.dart';
+import 'package:provider/provider.dart';
+
+import 'models/Provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

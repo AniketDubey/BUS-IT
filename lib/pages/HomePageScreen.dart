@@ -1,11 +1,12 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'BusDetailScreen.dart';
-import 'package:minoragain/pages/HomePage.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:minoragain/models/Provider.dart';
+import 'package:minoragain/pages/HomePage.dart';
+import 'package:provider/provider.dart';
+
+import 'BusDetailScreen.dart';
 
 class HomePageScreen extends StatelessWidget {
   //const HomePageScreen({ Key? key }) : super(key: key);
@@ -20,7 +21,7 @@ class HomePageScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+          color: Colors.black,
         ),
         backgroundColor: Colors.deepOrangeAccent,
         toolbarHeight: 80,
@@ -146,8 +147,7 @@ class HomePageScreen extends StatelessWidget {
                     ),
                     onPressed: () {
                       Provider.of<BList>(context, listen: false).screenChange();
-                      //print("Source is ${details["Source"]}");
-                      //print("Destination is ${details["Destination"]}");
+
                       String? s1 = "";
                       s1 = details["Source"];
                       String? s2 = "";
@@ -177,6 +177,7 @@ class HomePageScreen extends StatelessWidget {
                           },
                         );
                       } else {
+                        FocusScope.of(context).unfocus();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) => BusDetailScreen(details),

@@ -1,8 +1,8 @@
-// ignore_for_file: file_names, prefer_const_constructors
+// ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:minoragain/models/DUMMYDATA.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AllStation extends StatefulWidget {
   const AllStation({Key? key}) : super(key: key);
@@ -49,9 +49,14 @@ class _AllStationState extends State<AllStation> {
     return Scaffold(
       backgroundColor: Colors.yellow,
       appBar: AppBar(
-        title: Text(
-          "All Stations",
-          style: TextStyle(color: Colors.black),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "All Stations",
+              style: TextStyle(color: Colors.black),
+            ),
+          ],
         ),
         backgroundColor: Colors.deepOrangeAccent,
       ),
@@ -85,8 +90,7 @@ class _AllStationState extends State<AllStation> {
                       s1.docs.forEach(
                         (element) async {
                           m1 = element.data();
-                          //print(m1);
-                          //f2.add(m1);
+
                           Map<String, dynamic> mm2 = m1["IncBus"];
                           mm2.forEach(
                             (key, value) {

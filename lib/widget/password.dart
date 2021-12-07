@@ -22,7 +22,7 @@ class _PasswordInputState extends State<PasswordInput> {
           obscureText: true,
           decoration: InputDecoration(
             border: InputBorder.none,
-            labelText: 'Password',
+            labelText: 'Password*',
             labelStyle: TextStyle(
               color: Colors.black,
             ),
