@@ -129,7 +129,7 @@ class _ScanqrState extends State<Scanqr> {
         builder: (ctx, data, ch) {
           return _isLoading
               ? Center(child: CircularProgressIndicator())
-              : PasLog > 50
+              : PasLog < 50
                   ? Scratcher(
                       brushSize: 50,
                       threshold: 50,
