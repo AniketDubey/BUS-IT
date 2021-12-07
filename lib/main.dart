@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'models/Provider.dart';
-
+import 'package:bulleted_list/bulleted_list.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:minoragain/pages/login.page.dart';
@@ -125,9 +125,26 @@ class _FirstScreenState extends State<FirstScreen> {
                 textStyle: TextStyle(
                   fontSize: 52,
                   fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
                 ),
                 speed: Duration(milliseconds: 200),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
+          AnimatedTextKit(
+            //repeatForever: true,
+            animatedTexts: [
+              TyperAnimatedText(
+                "Gateway to your Destination",
+                textStyle: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+                speed: Duration(
+                  milliseconds: 155,
+                ),
               ),
             ],
           ),
@@ -186,12 +203,27 @@ class SecondScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Text(
+            /* Text(
               " • All passengers are advised to download the Aarogya Setu app on their mobile phones.\n"
               " • All passengers are required to use face covers/masks, and are required to follow hand hygiene, respiratory hygiene, and environmental hygiene.\n"
               " • All travellers must follow social distancing measures at bus terminals.\n"
               " • Travelers with quarantine seal mark will not be allowed to board the bus",
               textAlign: TextAlign.left,
+            ), */
+            BulletedList(
+              bullet: Icon(
+                Icons.check,
+                color: Colors.red,
+              ),
+              listItems: [
+                "All passengers are advised to download the Aarogya Setu app on their mobile phones.",
+                "All passengers are required to use face covers/masks, and are required to follow hand hygiene, respiratory hygiene, and environmental hygiene.",
+                "All travellers must follow social distancing measures at bus terminals.",
+                "Travelers with quarantine seal mark will not be allowed to board the bus",
+              ],
+              style: TextStyle(
+                fontSize: 14,
+              ),
             ),
           ],
         ),

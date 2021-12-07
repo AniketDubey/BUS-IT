@@ -92,9 +92,7 @@ class HomePageScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.deepOrangeAccent),
+                  TextButton(
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -111,11 +109,11 @@ class HomePageScreen extends StatelessWidget {
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text("NON AC PRICE: 100"),
+                                Text("NON AC PRICE: 10₹ per KM"),
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Text("AC PRICE: 100"),
+                                Text("AC PRICE: 15₹ per KM"),
                               ],
                             ),
                             actions: [
@@ -132,9 +130,10 @@ class HomePageScreen extends StatelessWidget {
                       );
                     },
                     child: Text(
-                      "   Price \nBrochure",
+                      "Price Brochure",
                       style: TextStyle(
-                        fontSize: 20,
+                        decoration: TextDecoration.underline,
+                        fontSize: 14,
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),

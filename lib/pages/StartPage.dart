@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:minoragain/pages/AllStation.dart';
 import 'package:minoragain/pages/HomePageScreen.dart';
 import 'package:minoragain/pages/Scanqr.dart';
-
+import 'ProfilePage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class StartPage extends StatefulWidget {
@@ -24,6 +24,7 @@ class _StartPageState extends State<StartPage> {
       HomePageScreen(),
       Scanqr(),
       AllStation(),
+      ProfilePage(),
     ];
   }
 
@@ -56,6 +57,16 @@ class _StartPageState extends State<StartPage> {
         ),
         icon: Icon(Icons.home),
         title: ("Station \n Info"),
+        activeColorPrimary: Colors.blueGrey,
+        inactiveColorPrimary: Colors.black,
+      ),
+      PersistentBottomNavBarItem(
+        textStyle: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+        icon: Icon(Icons.person),
+        title: ("Profile"),
         activeColorPrimary: Colors.blueGrey,
         inactiveColorPrimary: Colors.black,
       ),
