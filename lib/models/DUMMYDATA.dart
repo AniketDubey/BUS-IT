@@ -151,7 +151,7 @@ Map<int, String> sInfo = {
   30: "Jamia Milia Islamia",
   29: "Kalkaji Mandir",
   28: "Greater Kailash",
-  13: "Hauz Khaz",
+  13: "Hauz Khas",
   14: "Saket",
   15: "Sultanpur",
   16: "Qutub Minar",

@@ -797,6 +797,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                                   () async {
                                                                 /* FocusScope.of(ctx)
                                                                     .unfocus(); */ // yahan pr add hua hai
+
                                                                 var options = {
                                                                   'key':
                                                                       "rzp_test_LAi8gffdffQaA2",

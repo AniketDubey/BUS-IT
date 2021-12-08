@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:minoragain/pages/BasisAnalytics.dart';
+import 'package:minoragain/pages/SourceAnalysis.dart';
 import 'package:minoragain/pages/newuserPage.dart';
 import 'package:minoragain/widget/inputEmail.dart';
 import 'package:minoragain/widget/password.dart';
@@ -215,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Container(
                       height: 50,
-                      width: 100,
+                      width: 115,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -244,16 +246,19 @@ class _LoginPageState extends State<LoginPage> {
                         }, */
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => ChartAnalytics()));
+                              builder: (_) => BasicAnalytics()));
                         },
                         child: Row(
                           children: [
-                            Text("About\n  Us"),
+                            Text(
+                              "Statistics",
+                              style: TextStyle(fontSize: 16),
+                            ),
                             SizedBox(
-                              width: 8,
+                              width: 6,
                             ),
                             Icon(
-                              Icons.people,
+                              Icons.analytics,
                             ),
                           ],
                         ),

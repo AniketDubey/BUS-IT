@@ -22,6 +22,12 @@ class BList with ChangeNotifier {
     return _dataDestinationMap;
   }
 
+  Map<String, dynamic>? _dataBusMap = {};
+
+  Map<String, dynamic>? get dataBusMap {
+    return _dataBusMap;
+  }
+
   int _PasCount = 0; // need to change this ahead
 
   String? _Id;
@@ -223,6 +229,24 @@ class BList with ChangeNotifier {
       var ndata = data.data();
       ndata!["IncBus"][busNo] = sPasLog + to_board;
 
+      var busData = await FirebaseFirestore.instance
+          .collection("Analytics")
+          .doc("BusData")
+          .get();
+
+      var fbusData = busData.data();
+
+      if (fbusData!.containsKey(busNo)) {
+        fbusData[busNo] = fbusData[busNo] + 1;
+      } else {
+        fbusData[busNo] = 1;
+      }
+
+      await FirebaseFirestore.instance
+          .collection("Analytics")
+          .doc("BusData")
+          .set(fbusData);
+
       //print(ndata["IncBus"][busNo]);
 
       //String fId = "r4xqAhEvOnmdeSuS9ahD";
@@ -300,5 +324,15 @@ class BList with ChangeNotifier {
     _dataDestinationMap = ddata.data();
     notifyListeners();
     //print("provider se $_dataDestinationMap");
+  }
+
+  Future<void> busAnalyticsData() async {
+    var ddata = await FirebaseFirestore.instance
+        .collection("Analytics")
+        .doc("BusData")
+        .get();
+
+    _dataBusMap = ddata.data();
+    notifyListeners();
   }
 }
