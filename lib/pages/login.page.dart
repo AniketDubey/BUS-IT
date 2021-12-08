@@ -5,6 +5,7 @@ import 'package:minoragain/pages/newuserPage.dart';
 import 'package:minoragain/widget/inputEmail.dart';
 import 'package:minoragain/widget/password.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'ChartAnalytics.dart';
 
 import 'StartPage.dart';
 
@@ -233,13 +234,17 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: TextButton(
-                        onPressed: () async {
+                        /* onPressed: () async {
                           const url = 'https://flutter.dev';
                           if (await canLaunch(url)) {
                             await launch(url);
                           } else {
                             throw 'Could not launch $url';
                           }
+                        }, */
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => ChartAnalytics()));
                         },
                         child: Row(
                           children: [

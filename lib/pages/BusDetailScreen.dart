@@ -36,6 +36,11 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
     });
   }
 
+  void analyticsData() async {
+    await Provider.of<BList>(context, listen: false)
+        .analyticsData(widget.detailInfo);
+  }
+
   bool _isExpanded = false;
   UniqueKey? keyTile;
 
@@ -73,6 +78,7 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
 
   @override
   void initState() {
+    analyticsData();
     submitData();
     // TODO: implement initState
     _razorpay = Razorpay();

@@ -10,6 +10,18 @@ class BList with ChangeNotifier {
     return _l4;
   }
 
+  Map<String, dynamic>? _dataSourceMap = {};
+
+  Map<String, dynamic>? get dataSourceMap {
+    return _dataSourceMap;
+  }
+
+  Map<String, dynamic>? _dataDestinationMap = {};
+
+  Map<String, dynamic>? get dataDestinationMap {
+    return _dataDestinationMap;
+  }
+
   int _PasCount = 0; // need to change this ahead
 
   String? _Id;
@@ -211,7 +223,7 @@ class BList with ChangeNotifier {
       var ndata = data.data();
       ndata!["IncBus"][busNo] = sPasLog + to_board;
 
-      print(ndata["IncBus"][busNo]);
+      //print(ndata["IncBus"][busNo]);
 
       //String fId = "r4xqAhEvOnmdeSuS9ahD";
 
@@ -222,5 +234,71 @@ class BList with ChangeNotifier {
     } catch (error) {
       print(error);
     }
+  }
+
+  Future<void> analyticsData(Map<String, String> rData) async {
+    try {
+      String src = rData["Source"]!;
+      String dst = rData["Destination"]!;
+      var sdata = await FirebaseFirestore.instance
+          .collection("Analytics")
+          .doc("Source")
+          .get();
+      var sinfo = sdata.data();
+
+      if (sinfo!.containsKey(src)) {
+        sinfo[src] = sinfo[src] + 1;
+      } else {
+        sinfo[src] = 1;
+      }
+
+      var ddata = await FirebaseFirestore.instance
+          .collection("Analytics")
+          .doc("Destination")
+          .get();
+      var dinfo = ddata.data();
+
+      if (dinfo!.containsKey(dst)) {
+        dinfo[dst] = dinfo[dst] + 1;
+      } else {
+        dinfo[dst] = 1;
+      }
+
+      //print(sinfo);
+      //print(dinfo);
+
+      await FirebaseFirestore.instance
+          .collection("Analytics")
+          .doc("Source")
+          .set(sinfo);
+      await FirebaseFirestore.instance
+          .collection("Analytics")
+          .doc("Destination")
+          .set(dinfo);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> fetchSourceAnalytics() async {
+    var sdata = await FirebaseFirestore.instance
+        .collection("Analytics")
+        .doc("Source")
+        .get();
+
+    _dataSourceMap = sdata.data();
+    notifyListeners();
+    //print("provider se $_dataSourceMap");
+  }
+
+  Future<void> fetchDestinationAnalytics() async {
+    var ddata = await FirebaseFirestore.instance
+        .collection("Analytics")
+        .doc("Destination")
+        .get();
+
+    _dataDestinationMap = ddata.data();
+    notifyListeners();
+    //print("provider se $_dataDestinationMap");
   }
 }
