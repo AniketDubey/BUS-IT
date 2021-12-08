@@ -106,12 +106,18 @@ class _AllStationState extends State<AllStation> {
                             content: ListView.builder(
                               shrinkWrap: true,
                               itemBuilder: (cptx, i) {
-                                return Card(
-                                  child: Text(
-                                    f1[i],
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold),
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        f1[i],
+                                        style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
                                 );
                               },

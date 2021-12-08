@@ -177,7 +177,7 @@ class HomePageScreen extends StatelessWidget {
                           },
                         );
                       } else {
-                        FocusScope.of(context).unfocus();
+                        //FocusScope.of(context).unfocus();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) => BusDetailScreen(details),

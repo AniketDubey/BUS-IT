@@ -584,8 +584,8 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                               Spacer(),
                                               FloatingActionButton.extended(
                                                 onPressed: () {
-                                                  FocusScope.of(ctx)
-                                                      .unfocus(); // yahn pr add hua
+                                                  /* FocusScope.of(ctx)
+                                                      .unfocus(); */ // yahn pr add hua
                                                   showDialog(
                                                     context: ctx,
                                                     builder: (bui) {
@@ -669,170 +669,174 @@ class _BusDetailScreenState extends State<BusDetailScreen> {
                                                           ],
                                                         );
                                                       }
-                                                      return AlertDialog(
-                                                        title: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text("BUS IT"),
-                                                          ],
-                                                        ),
-                                                        content: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                    "Date: ${now.day}-${now.month}-${now.year}"),
-                                                                Spacer(),
-                                                                Text(
-                                                                    "Time:  ${now.hour}:${now.minute}"),
-                                                              ],
-                                                            ),
-                                                            TopInfoGiver(
-                                                                "Transaction Id: ",
-                                                                tID,
-                                                                ctx),
-                                                            SizedBox(
-                                                              height: 3,
-                                                            ),
-                                                            TopInfoGiver(
-                                                                "Customer Name: ",
-                                                                "acb xyz",
-                                                                ctx),
-                                                            SizedBox(
-                                                              height: 3,
-                                                            ),
-                                                            TopInfoGiver(
-                                                                "Mobile No: ",
-                                                                "0123456789",
-                                                                ctx),
-                                                            SizedBox(
-                                                              height: 3,
-                                                            ),
-                                                            TopInfoGiver(
-                                                                "Email-ID: ",
-                                                                "abc@gmail.com",
-                                                                ctx),
-                                                            SizedBox(
-                                                                height: 20),
-                                                            Row(
-                                                              children: [
-                                                                SizedBox(
-                                                                    width: 60),
-                                                                Text(
-                                                                    "Travel Details"),
-                                                              ],
-                                                            ),
-                                                            Divider(
-                                                              color:
-                                                                  Colors.black,
-                                                              thickness: 2,
-                                                            ),
-                                                            SizedBox(
-                                                                height: 20),
-                                                            InfoGiver(
-                                                                "Source ",
-                                                                widget.detailInfo[
-                                                                    "Source"],
-                                                                ctx),
-                                                            SizedBox(
-                                                              height: 8,
-                                                            ),
-                                                            InfoGiver(
-                                                                "Destination: ",
-                                                                widget.detailInfo[
-                                                                    "Destination"],
-                                                                ctx),
-                                                            SizedBox(
-                                                              height: 8,
-                                                            ),
-                                                            TopInfoGiver(
-                                                                "BusID: ",
-                                                                temp["BusNum"],
-                                                                ctx),
-                                                            SizedBox(
-                                                              height: 3,
-                                                            ),
-                                                            TopInfoGiver(
-                                                                "No of Tickets: ",
-                                                                _controller
-                                                                    .text,
-                                                                ctx),
-                                                            SizedBox(
-                                                              height: 3,
-                                                            ),
-                                                            TopInfoGiver(
-                                                                "Price per Head: ",
-                                                                _fareTotal[
-                                                                    index],
-                                                                ctx),
-                                                            SizedBox(
-                                                              height: 3,
-                                                            ),
-                                                            TopInfoGiver(
-                                                                "Total Price: ",
-                                                                pasCountTotal *
-                                                                    _fareTotal[
-                                                                        index],
-                                                                ctx),
-                                                          ],
-                                                        ),
-                                                        actions: [
-                                                          FloatingActionButton
-                                                              .extended(
-                                                            onPressed:
-                                                                () async {
-                                                              FocusScope.of(ctx)
-                                                                  .unfocus(); // yahan pr add hua hai
-                                                              var options = {
-                                                                'key':
-                                                                    "rzp_test_LAi8gffdffQaA2",
-                                                                'amount': (pasCountTotal *
-                                                                        _fareTotal[
-                                                                            index] *
-                                                                        100)
-                                                                    .toString(), //in the smallest currency sub-unit.
-                                                                'name':
-                                                                    'Aniket Dubey Minor',
-                                                                'description':
-                                                                    'Demo',
-                                                                'timeout':
-                                                                    300, // in seconds
-                                                                'prefill': {
-                                                                  'contact':
-                                                                      '0123456798',
-                                                                  'email':
-                                                                      'aniket.dubey0206@gmail.com'
-                                                                }
-                                                              };
-
-                                                              _razorpay.open(
-                                                                  options);
-
-                                                              await _updateData(
+                                                      return SingleChildScrollView(
+                                                        child: AlertDialog(
+                                                          title: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Text("BUS IT"),
+                                                            ],
+                                                          ),
+                                                          content: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                      "Date: ${now.day}-${now.month}-${now.year}"),
+                                                                  Spacer(),
+                                                                  Text(
+                                                                      "Time:  ${now.hour}:${now.minute}"),
+                                                                ],
+                                                              ),
+                                                              TopInfoGiver(
+                                                                  "Transaction Id: ",
+                                                                  tID,
+                                                                  ctx),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              TopInfoGiver(
+                                                                  "Customer Name: ",
+                                                                  "acb xyz",
+                                                                  ctx),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              TopInfoGiver(
+                                                                  "Mobile No: ",
+                                                                  "0123456789",
+                                                                  ctx),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              TopInfoGiver(
+                                                                  "Email-ID: ",
+                                                                  "abc@gmail.com",
+                                                                  ctx),
+                                                              SizedBox(
+                                                                  height: 20),
+                                                              Row(
+                                                                children: [
+                                                                  SizedBox(
+                                                                      width:
+                                                                          60),
+                                                                  Text(
+                                                                      "Travel Details"),
+                                                                ],
+                                                              ),
+                                                              Divider(
+                                                                color: Colors
+                                                                    .black,
+                                                                thickness: 2,
+                                                              ),
+                                                              SizedBox(
+                                                                  height: 20),
+                                                              InfoGiver(
+                                                                  "Source ",
+                                                                  widget.detailInfo[
+                                                                      "Source"],
+                                                                  ctx),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              InfoGiver(
+                                                                  "Destination: ",
+                                                                  widget.detailInfo[
+                                                                      "Destination"],
+                                                                  ctx),
+                                                              SizedBox(
+                                                                height: 8,
+                                                              ),
+                                                              TopInfoGiver(
+                                                                  "BusID: ",
                                                                   temp[
                                                                       "BusNum"],
-                                                                  widget.detailInfo[
-                                                                      "Destination"]!,
-                                                                  pasCountTotal);
-
-                                                              Navigator.of(
-                                                                      context,
-                                                                      rootNavigator:
-                                                                          true)
-                                                                  .pop();
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            },
-                                                            label:
-                                                                Text("Pay Now"),
+                                                                  ctx),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              TopInfoGiver(
+                                                                  "No of Tickets: ",
+                                                                  _controller
+                                                                      .text,
+                                                                  ctx),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              TopInfoGiver(
+                                                                  "Price per Head: ",
+                                                                  _fareTotal[
+                                                                      index],
+                                                                  ctx),
+                                                              SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              TopInfoGiver(
+                                                                  "Total Price: ",
+                                                                  pasCountTotal *
+                                                                      _fareTotal[
+                                                                          index],
+                                                                  ctx),
+                                                            ],
                                                           ),
-                                                        ],
+                                                          actions: [
+                                                            FloatingActionButton
+                                                                .extended(
+                                                              onPressed:
+                                                                  () async {
+                                                                /* FocusScope.of(ctx)
+                                                                    .unfocus(); */ // yahan pr add hua hai
+                                                                var options = {
+                                                                  'key':
+                                                                      "rzp_test_LAi8gffdffQaA2",
+                                                                  'amount': (pasCountTotal *
+                                                                          _fareTotal[
+                                                                              index] *
+                                                                          100)
+                                                                      .toString(), //in the smallest currency sub-unit.
+                                                                  'name':
+                                                                      'Aniket Dubey Minor',
+                                                                  'description':
+                                                                      'Demo',
+                                                                  'timeout':
+                                                                      300, // in seconds
+                                                                  'prefill': {
+                                                                    'contact':
+                                                                        '0123456798',
+                                                                    'email':
+                                                                        'aniket.dubey0206@gmail.com'
+                                                                  }
+                                                                };
+
+                                                                _razorpay.open(
+                                                                    options);
+
+                                                                await _updateData(
+                                                                    temp[
+                                                                        "BusNum"],
+                                                                    widget.detailInfo[
+                                                                        "Destination"]!,
+                                                                    pasCountTotal);
+
+                                                                Navigator.of(
+                                                                        context,
+                                                                        rootNavigator:
+                                                                            true)
+                                                                    .pop();
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              label: Text(
+                                                                  "Pay Now"),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       );
                                                     },
                                                   );

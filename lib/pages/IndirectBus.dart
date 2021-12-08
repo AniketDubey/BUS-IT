@@ -1,6 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:minoragain/models/DUMMYDATA.dart';
 
 class IndirectBus extends StatelessWidget {
@@ -45,6 +47,15 @@ class IndirectBus extends StatelessWidget {
     return _fReturn;
   }
 
+  Widget CreateWidget(int index, int Flen) {
+    if (index == 0) {
+      return Text("SRC: ");
+    } else if (index == Flen - 1) {
+      return Text("DST: ");
+    }
+    return Text("$index");
+  }
+
   @override
   Widget build(BuildContext context) {
     String? src = detailInfo["Source"];
@@ -56,25 +67,53 @@ class IndirectBus extends StatelessWidget {
     List<String?> fList = findList(srci, dsti);
 
     return Scaffold(
+      backgroundColor: Colors.yellow,
       appBar: AppBar(
-        title: Text("Indirect Bus List"),
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        backgroundColor: Colors.deepOrangeAccent,
+        title: Text(
+          "Indirect Bus List",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(18),
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Card(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 6),
-                child: Text(
-                  "${fList[index]}",
-                  style: Theme.of(context).textTheme.headline1,
-                ),
+        child: fList.length == 0
+            ? Center(
+                child: Text("No Buses found!"),
+              )
+            : ListView.builder(
+                itemBuilder: (ctx, index) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            CreateWidget(index, fList.length),
+                            Spacer(),
+                            AutoSizeText(
+                              "${fList[index]}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                              /* maxFontSize: 18,
+                              minFontSize: 14, */
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: fList.length,
               ),
-            );
-          },
-          itemCount: fList.length,
-        ),
       ),
     );
   }
