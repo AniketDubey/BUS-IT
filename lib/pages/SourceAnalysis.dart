@@ -38,16 +38,6 @@ class _SourceAnalysisState extends State<SourceAnalysis> {
     ]);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-        backgroundColor: Colors.deepOrangeAccent,
-        title: Text(
-          "Source Analytics",
-          style: TextStyle(color: Colors.black, fontSize: 22),
-        ),
-      ),
       body: Padding(
         padding: EdgeInsets.all(10),
         child: Consumer<BList>(

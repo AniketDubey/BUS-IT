@@ -39,18 +39,6 @@ class _BusAnalysisState extends State<BusAnalysis> {
     ]);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-        backgroundColor: Colors.deepOrangeAccent,
-        title: AutoSizeText(
-          "Bus Analytics",
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black, fontSize: 22),
-          maxLines: 2,
-        ),
-      ),
       body: Padding(
         padding: EdgeInsets.all(10),
         child: Consumer<BList>(

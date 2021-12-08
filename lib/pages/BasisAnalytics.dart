@@ -12,87 +12,57 @@ class BasicAnalytics extends StatefulWidget {
   _BasicAnalyticsState createState() => _BasicAnalyticsState();
 }
 
-class _BasicAnalyticsState extends State<BasicAnalytics> {
+class _BasicAnalyticsState extends State<BasicAnalytics>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  final List<Tab> myTabs = <Tab>[
+    Tab(
+      text: ' Source\nAnalysis',
+    ),
+    Tab(text: 'Destination \n   Analysis'),
+    Tab(text: '   Bus \nAnalysis'),
+  ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tabController = TabController(vsync: this, length: 3);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color: Colors.black, //change your color here
+        ),
+        bottom: TabBar(
+          indicatorColor: Colors.black,
+          labelColor: Colors.black,
+          controller: _tabController,
+          tabs: myTabs,
+        ),
+        title: Text(
+          "Analytics",
+          style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.deepOrangeAccent,
-        title: Text(
-          "Basic Analysis Page",
-          style: TextStyle(color: Colors.black, fontSize: 22),
-        ),
       ),
-      drawer: Drawer(
-        elevation: 15,
-        child: ListView(
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.deepOrangeAccent,
-              ),
-              child: Text(
-                "Analytics",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.analytics),
-              title: Text("Source Analytics"),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => SourceAnalysis(),
-                  ),
-                );
-              },
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            ListTile(
-              leading: Icon(Icons.analytics),
-              title: Text("Destination Analytics"),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => DestinationAnalysis(),
-                  ),
-                );
-              },
-            ),
-            Divider(
-              thickness: 2,
-            ),
-            ListTile(
-              leading: Icon(Icons.analytics),
-              title: Text("Bus Analytics"),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => BusAnalysis(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-      body: Stack(
+      body: TabBarView(
+        controller: _tabController,
         children: [
-          Positioned.fill(
-            child: Image.asset(
-              "assets/statistics.gif",
-              fit: BoxFit.fill,
-            ),
-          ),
+          SourceAnalysis(),
+          DestinationAnalysis(),
+          BusAnalysis(),
         ],
       ),
     );

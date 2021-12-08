@@ -40,18 +40,6 @@ class _DestinationAnalysisState extends State<DestinationAnalysis> {
     ]);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-        backgroundColor: Colors.deepOrangeAccent,
-        title: AutoSizeText(
-          "Destination Analytics",
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black, fontSize: 22),
-          maxLines: 2,
-        ),
-      ),
       body: Padding(
         padding: EdgeInsets.all(10),
         child: Consumer<BList>(
