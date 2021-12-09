@@ -175,7 +175,7 @@ class _ScanqrState extends State<Scanqr> {
                       ),
                     )
                   : AlertDialog(
-                      title: Text("No offer Avaialble"),
+                      title: Text("No seats Avaialble"),
                       actions: [
                         TextButton(
                           onPressed: () {
